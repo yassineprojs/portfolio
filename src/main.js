@@ -87,7 +87,7 @@ export default function Main(props) {
   return (
     <>
       {boardClicked && <Board id="tsparticles" />}
-      <Canvas shadows camera={{ position: [0, 2, 0] }}>
+      <Canvas shadows camera={{ position: [-3, 3, 0] }}>
         <Experience
           onMeshClick={() => setIsOverlayVisible(true)}
           // onBoardClick={() => {
