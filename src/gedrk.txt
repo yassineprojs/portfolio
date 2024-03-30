@@ -13,7 +13,8 @@ something, see Let's Fix Your React Three Fiber Projects for mascott
 *fix the poster
 *put the whole walls
 *do the camera animation
-*do the interface for opening the pc for seeing the logs(interests)
+*do the interface for opening the pc [x]
+ for seeing the logs(interests) 
 adn then sees qr code to scan for contacts
 *do the glitch of the pc and goes into world when done with everything and sees projects then goodbye and contact
 *opens bag to reveal cybersecurity tools you useù*can choose from vinyls to play music
