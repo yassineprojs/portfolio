@@ -1,0 +1,20 @@
+*make the cubes and rotate them [x]
+*make the interface for the cubes:
+    make the guide: when clicked on paper/board, dark overlay or something with instrcutins, [x]
+                 also pointing back to the paper for the hint, do it when with cam animation
+                 also make a progressive bat to show progress
+    make the backgrond [x]
+    make the functionality [x]
+    make the resumes hidden and reveal them once won [x]
+*fix the mascott animation [x]
+ and do something about the background lighten it or 
+something, see Let's Fix Your React Three Fiber Projects for mascott
+
+*fix the poster
+*put the whole walls
+*do the camera animation
+*do the interface for opening the pc for seeing the logs(interests)
+adn then sees qr code to scan for contacts
+*do the glitch of the pc and goes into world when done with everything and sees projects then goodbye and contact
+*opens bag to reveal cybersecurity tools you useù*can choose from vinyls to play music
+*put some music from "a playlist to romanticize working as a barista in a cafe" in insideWorld
