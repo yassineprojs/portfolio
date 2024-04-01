@@ -1,5 +1,5 @@
 import { OrbitControls } from "@react-three/drei";
-import Room from "./Room.jsx";
+import { Room, Floor2 } from "./Room";
 import { Perf } from "r3f-perf";
 
 export default function Experience({
@@ -20,6 +20,7 @@ export default function Experience({
         visibleCube={visible}
         gameWon={gameWon}
       />
+      <Floor2 />
     </>
   );
 }

@@ -18,12 +18,7 @@ import InsideWorld from "./components/insideWorld.jsx";
 import { useFrame } from "@react-three/fiber";
 import { easing } from "maath";
 
-export default function Room({
-  onMeshClick,
-  onHintClick,
-  visibleCube,
-  gameWon,
-}) {
+export function Room({ onMeshClick, onHintClick, visibleCube, gameWon }) {
   const { nodes, materials } = useGLTF("./models/bekedPortfolio7.glb");
   const textbill = useRef();
 
@@ -34,7 +29,7 @@ export default function Room({
     },
     rotationIframe: {
       value: { x: 0, y: 0, z: 0 },
-      step: 0.01,
+      step: 0.001,
     },
   });
   const chairRef = useRef();
@@ -56,7 +51,7 @@ export default function Room({
     "/bakedPortfolioTextures/bedBakedFinalFinal.jpg"
   );
   const boardPapers = loadAndConfigureTexture(
-    "/bakedPortfolioTextures/boardPapersBaked.jpg"
+    "/bakedPortfolioTextures/boardPapersBaked2.jpg"
   );
   const booksPC = loadAndConfigureTexture(
     "/bakedPortfolioTextures/outsideBooksPCBaked.jpg"
@@ -79,9 +74,7 @@ export default function Room({
   const phoneBaked = loadAndConfigureTexture(
     "/bakedPortfolioTextures/phoneBaked.jpg"
   );
-  // const pinsBooksDecorBaked = loadAndConfigureTexture(
-  //   "/bakedPortfolioTextures/newBooksDecorPins.jpg"
-  // );
+
   const plantsBaked = loadAndConfigureTexture(
     "/bakedPortfolioTextures/plantsBaked.jpg"
   );
@@ -94,9 +87,7 @@ export default function Room({
   const diskBaked = loadAndConfigureTexture(
     "/bakedPortfolioTextures/diskBaked.jpg"
   );
-  // const insideBookspc = loadAndConfigureTexture(
-  //   "/bakedPortfolioTextures/insideBookspcBaked.jpg"
-  // );
+
   const picsPolaroidBaked = loadAndConfigureTexture(
     "/bakedPortfolioTextures/picsPolaroidBaked.jpg"
   );
@@ -160,10 +151,6 @@ export default function Room({
     map: diskBaked,
   });
 
-  const insideBookspcMaterial = new THREE.MeshBasicMaterial({
-    map: diskBaked,
-  });
-
   const picpolroid = new THREE.MeshBasicMaterial({
     map: picsPolaroidBaked,
   });
@@ -174,6 +161,7 @@ export default function Room({
   const pinbookMaterial = new THREE.MeshBasicMaterial({
     map: pinsInsideBooksBaked,
   });
+
   const [hovered, setHovered] = useState();
   useCursor(hovered);
 
@@ -198,6 +186,33 @@ export default function Room({
   /** code ** */
   return (
     <group dispose={null}>
+      {/* pc */}
+      <group position={[1.52, 1.002, 0.528]} rotation={[0, 0, 0.03]}>
+        <mesh geometry={nodes.defaultMaterial002.geometry} material={pc} />
+        <mesh geometry={nodes.defaultMaterial002_1.geometry} material={pc} />
+        <mesh geometry={nodes.defaultMaterial002_2.geometry} material={pc} />
+        <mesh geometry={nodes.defaultMaterial002_3.geometry} material={pc} />
+        <mesh geometry={nodes.defaultMaterial002_4.geometry} material={pc} />
+        <mesh geometry={nodes.defaultMaterial002_5.geometry} material={pc} />
+        <mesh geometry={nodes.defaultMaterial002_6.geometry} material={pc} />
+        <mesh geometry={nodes.defaultMaterial002_7.geometry} material={pc} />
+        <mesh geometry={nodes.defaultMaterial002_8.geometry} material={pc} />
+        {/* <mesh geometry={nodes.defaultMaterial002_9.geometry} material={pc}> */}
+        {/* <Html
+          style={{ userSelect: "none", pointerEvents: "none" }}
+          ref={textbill}
+          wrapperClass="htmlScreen"
+          transform
+          center
+          distanceFactor={0.155}
+          // position={[positionIframe.x, 0.37, positionIframe.z]}
+          position={[-0.2, 0.37, 0.02]}
+          rotation={[rotationIframe.x, -Math.PI / 2, rotationIframe.z]}
+        >
+          <iframe src="https://yassineprojs.github.io/innerWebsite/" />
+        </Html> */}
+        {/* </mesh> */}
+      </group>
       {/* phone */}
       <group position={[1.202, 1.036, -0.001]}>
         <mesh
@@ -294,32 +309,6 @@ export default function Room({
       <group position={[1.774, 2.044, 0.261]} name="boardName">
         <mesh geometry={nodes.Cube037.geometry} material={cnsfcbw} />
         <mesh geometry={nodes.Cube037_1.geometry} material={cnsfcbw} />
-      </group>
-
-      {/* pc */}
-      <group position={[1.52, 1.002, 0.528]}>
-        <mesh geometry={nodes.defaultMaterial002.geometry} material={pc} />
-        <mesh geometry={nodes.defaultMaterial002_1.geometry} material={pc} />
-        <mesh geometry={nodes.defaultMaterial002_2.geometry} material={pc} />
-        <mesh geometry={nodes.defaultMaterial002_3.geometry} material={pc} />
-        <mesh geometry={nodes.defaultMaterial002_4.geometry} material={pc} />
-        <mesh geometry={nodes.defaultMaterial002_5.geometry} material={pc} />
-        <mesh geometry={nodes.defaultMaterial002_6.geometry} material={pc} />
-        <mesh geometry={nodes.defaultMaterial002_7.geometry} material={pc} />
-        <mesh geometry={nodes.defaultMaterial002_8.geometry} material={pc} />
-        <mesh geometry={nodes.defaultMaterial002_9.geometry} material={pc}>
-          {/* <Html
-            ref={textbill}
-            wrapperClass="htmlScreen"
-            transform
-            center
-            distanceFactor={0.155}
-            position={[positionIframe.x, positionIframe.y, positionIframe.z]}
-            rotation={[rotationIframe.z, rotationIframe.y, rotationIframe.x]}
-          >
-            <iframe src="https://yassineprojs.github.io/iframe/" />
-          </Html> */}
-        </mesh>
       </group>
 
       {/* pinsInsideBooksBaked */}
@@ -543,10 +532,57 @@ export default function Room({
       <mesh
         geometry={nodes.disk.geometry}
         material={diskBakedMaterial}
-        position={[1.182, 1.006, 1.014]}
+        position={[1.182, 1.008, 1.014]}
       />
     </group>
   );
 }
 
+export function Floor2(props) {
+  const { nodes, materials } = useGLTF("./models/newBaked.glb");
+  const doorWalls2PcScreen = useTexture(
+    "/bakedPortfolioTextures/doorWallsPcScreenBetter7.jpg"
+  );
+  doorWalls2PcScreen.flipY = false;
+  doorWalls2PcScreen.colorSpace = THREE.SRGBColorSpace;
+  const doorWalls2PcScreenMaterial = new THREE.MeshBasicMaterial({
+    map: doorWalls2PcScreen,
+  });
+
+  return (
+    <group {...props} dispose={null}>
+      <mesh
+        castShadow
+        receiveShadow
+        geometry={nodes.door.geometry}
+        material={doorWalls2PcScreenMaterial}
+        position={[-2.036, 1.427, 0.217]}
+        rotation={[Math.PI / 2, 0, -Math.PI / 2]}
+      />
+      <mesh
+        castShadow
+        receiveShadow
+        geometry={nodes.doorKnob.geometry}
+        material={doorWalls2PcScreenMaterial}
+        position={[-1.923, 1.451, 0.65]}
+        rotation={[Math.PI / 2, 0, Math.PI / 2]}
+      />
+      <mesh
+        castShadow
+        receiveShadow
+        geometry={nodes.pcSceen.geometry}
+        material={doorWalls2PcScreenMaterial}
+        position={[1.52, 1.002, 0.528]}
+      />
+      <mesh
+        castShadow
+        receiveShadow
+        geometry={nodes.floorWalls2.geometry}
+        material={doorWalls2PcScreenMaterial}
+        position={[1.182, 1.006, 1.014]}
+      />
+    </group>
+  );
+}
 useGLTF.preload("./models/bekedPortfolio7.glb");
+useGLTF.preload("./models/newBaked.glb");

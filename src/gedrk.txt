@@ -10,8 +10,18 @@
  and do something about the background lighten it or 
 something, see Let's Fix Your React Three Fiber Projects for mascott
 
-*fix the poster
-*put the whole walls
+//poster
+
+*fix the poster(design a padlock or a firewall or likke a secret door and when clicked he enters to see projects, 
+ Add a subtle, transparent glow or another visual cue around the poster's edges to indicate it's clickable
+ Layered Firewall: Instead of a single padlock or firewall, use a layered design. Imagine three semi-transparent, concentric circles representing the three aspects of the CIA triad.
+Inner layer (Confidentiality): This layer could be a stylized padlock graphic with a checkmark inside, signifying secure access.
+Middle layer (Integrity): This layer could showcase a document with a verification stamp or a "shield" icon with a checkmark, symbolizing data integrity.
+Outer layer (Availability): This layer could depict a globe with network connections or a server icon with a checkmark, representing accessible information.
+--------->> the rings can circulates in different positions and in the inner circle will be the portal and it'll be blurred )
+
+
+*put the whole walls [x]
 *do the camera animation
 *do the interface for opening the pc [x]
  for seeing the logs(interests) 

@@ -107,7 +107,7 @@ export default function Main(props) {
           gameWon={isGameWon}
         />
         {/* <Cube visible={isCubeVisible} /> */}
-        {/* <Cube visible={isCubeVisible} onAllWordsCompleted={setIsGameWon} /> */}
+        <Cube visible={isCubeVisible} onAllWordsCompleted={setIsGameWon} />
       </Canvas>
 
       {boxCubeVisible && (
