@@ -1,10 +1,73 @@
-import { Canvas } from "@react-three/fiber";
+import { Canvas, useFrame, extend, useThree } from "@react-three/fiber";
 import Experience from "./Experience.jsx";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Mascott from "./components/Mascott.jsx";
 import { Cube } from "./components/Cubes.jsx";
 import Instructs from "./components/gameInstucts.jsx";
 import { Character } from "./components/Character.jsx";
+import {
+  Center,
+  FirstPersonControls,
+  OrbitControls,
+  PerspectiveCamera,
+} from "@react-three/drei";
+
+function CameraController() {
+  const {
+    camera,
+    gl: { domElement },
+  } = useThree();
+  const isDragging = useRef(false);
+  const movement = useRef({ x: 0, y: 0 });
+  const dampingFactor = 0.002;
+
+  const onMouseDown = (e) => {
+    isDragging.current = true;
+  };
+
+  const onMouseMove = (e) => {
+    if (isDragging.current) {
+      const { x, y } = movement.current;
+      movement.current = {
+        x: e.movementX,
+        y: e.movementY,
+      };
+      camera.position.x -= x * dampingFactor;
+      camera.position.y += y * dampingFactor;
+    }
+  };
+
+  const onMouseUp = () => {
+    isDragging.current = false;
+  };
+
+  useEffect(() => {
+    domElement.addEventListener("mousedown", onMouseDown);
+    domElement.addEventListener("mouseup", onMouseUp);
+    domElement.addEventListener("mousemove", onMouseMove);
+
+    return () => {
+      domElement.removeEventListener("mousedown", onMouseDown);
+      domElement.removeEventListener("mouseup", onMouseUp);
+      domElement.removeEventListener("mousemove", onMouseMove);
+    };
+  }, [domElement]);
+
+  useFrame(() => {
+    const { x, y } = movement.current;
+    if (isDragging.current) {
+      camera.position.x -= x * dampingFactor;
+      camera.position.y += y * dampingFactor;
+      // Gradually reduce the movement to zero
+      movement.current = {
+        x: x * (1 - dampingFactor),
+        y: y * (1 - dampingFactor),
+      };
+    }
+  });
+
+  return null;
+}
 
 export default function Main(props) {
   const script = [
@@ -41,9 +104,7 @@ export default function Main(props) {
   const [isCubeVisible, setIsCubeVisible] = useState(false);
   const [currentBoxTextIndex, setCurrentBoxTextIndex] = useState(0);
   const [boxCubeVisible, setBoxCubeVisible] = useState(isCubeVisible);
-
-  // New state to track if the game is won
-  // const [gameWon, setGameWon] = useState(false);
+  const [isGameWon, setIsGameWon] = useState(false);
 
   const handleOverlayClick = () => {
     setIsSpeechBoxVisible(false);
@@ -94,20 +155,31 @@ export default function Main(props) {
     setBoxCubeVisible(false);
   };
 
-  const [isGameWon, setIsGameWon] = useState(false);
-
   return (
     <>
-      <Canvas shadows camera={{ position: [-3, 3, 0] }}>
-        <color attach="background" args={["#DFF5FF"]} />
-        <Experience
-          onMeshClick={() => setIsOverlayVisible(true)}
-          onHintClick={handleHintClick}
-          visible={isCubeVisible}
-          gameWon={isGameWon}
-        />
-        {/* <Cube visible={isCubeVisible} /> */}
-        <Cube visible={isCubeVisible} onAllWordsCompleted={setIsGameWon} />
+      <Canvas
+        camera={{
+          fov: 60,
+          near: 0.1,
+          far: 200,
+          position: [-0.942, 1, 0.41],
+          // rotation: [1.125, -1.2, -1.107],
+        }}
+      >
+        {/* <OrbitControls enableRotate={false} /> */}
+        {/* <FirstPersonControls lookSpeed={0.1} /> */}
+        <CameraController />
+        <Center>
+          <color attach="background" args={["#DFF5FF"]} />
+          <Experience
+            onMeshClick={() => setIsOverlayVisible(true)}
+            onHintClick={handleHintClick}
+            visible={isCubeVisible}
+            gameWon={isGameWon}
+          />
+
+          <Cube visible={isCubeVisible} onAllWordsCompleted={setIsGameWon} />
+        </Center>
       </Canvas>
 
       {boxCubeVisible && (
