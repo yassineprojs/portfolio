@@ -11,7 +11,8 @@ import {
   OrbitControls,
   PerspectiveCamera,
 } from "@react-three/drei";
-
+// import { FirstPersonControls } from "three/examples/jsm/Addons.js";
+// extend({ FirstPersonControls });
 function CameraController() {
   const {
     camera,
@@ -20,6 +21,7 @@ function CameraController() {
   const isDragging = useRef(false);
   const movement = useRef({ x: 0, y: 0 });
   const dampingFactor = 0.002;
+  const rotationSpeed = useRef({ x: 0, y: 0 });
 
   const onMouseDown = (e) => {
     isDragging.current = true;
@@ -64,9 +66,62 @@ function CameraController() {
         y: y * (1 - dampingFactor),
       };
     }
+    rotationSpeed.current.x *= 1 - dampingFactor;
+    rotationSpeed.current.y *= 1 - dampingFactor;
+
+    // Apply the rotation speed to the camera rotation
+    camera.rotation.x += rotationSpeed.current.y;
+    camera.rotation.y += rotationSpeed.current.x;
   });
 
   return null;
+}
+function CustomFirstPersonControls(props) {
+  const controls = useRef();
+  const {
+    camera,
+    gl: { domElement },
+  } = useThree();
+  const moveState = useRef({ moving: false, lastMoveTime: 0 });
+  const dampingFactor = 0.02;
+  const timeout = 250; // Time in milliseconds after which the rotation stops
+
+  useFrame(() => {
+    if (controls.current) {
+      const timeSinceLastMove = Date.now() - moveState.current.lastMoveTime;
+      if (moveState.current.moving && timeSinceLastMove > timeout) {
+        controls.current.lookSpeed *= 1 - dampingFactor;
+        if (controls.current.lookSpeed < 0.001) {
+          controls.current.lookSpeed = 0;
+          moveState.current.moving = false;
+        }
+      }
+    }
+  });
+
+  useEffect(() => {
+    const handleMouseMove = () => {
+      if (controls.current) {
+        controls.current.lookSpeed = props.lookSpeed;
+        moveState.current.moving = true;
+        moveState.current.lastMoveTime = Date.now();
+      }
+    };
+
+    domElement.addEventListener("mousemove", handleMouseMove);
+
+    return () => {
+      domElement.removeEventListener("mousemove", handleMouseMove);
+    };
+  }, [props.lookSpeed, domElement]);
+
+  return (
+    <FirstPersonControls
+      ref={controls}
+      args={[camera, domElement]}
+      {...props}
+    />
+  );
 }
 
 export default function Main(props) {
@@ -166,9 +221,16 @@ export default function Main(props) {
           // rotation: [1.125, -1.2, -1.107],
         }}
       >
-        {/* <OrbitControls enableRotate={false} /> */}
-        {/* <FirstPersonControls lookSpeed={0.1} /> */}
-        <CameraController />
+        {/* <OrbitControls /> */}
+
+        {/* <CameraController /> */}
+        <CustomFirstPersonControls
+          lookSpeed={0.05}
+          movementSpeed={0}
+          noFly={true}
+          activeLook={true}
+          autoForward={false}
+        />
         <Center>
           <color attach="background" args={["#DFF5FF"]} />
           <Experience
