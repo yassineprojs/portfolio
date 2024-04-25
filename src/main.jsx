@@ -11,80 +11,53 @@ import {
   OrbitControls,
   PerspectiveCamera,
 } from "@react-three/drei";
-// import { FirstPersonControls } from "three/examples/jsm/Addons.js";
-// extend({ FirstPersonControls });
-function CameraController() {
-  const {
-    camera,
-    gl: { domElement },
-  } = useThree();
-  const isDragging = useRef(false);
-  const movement = useRef({ x: 0, y: 0 });
-  const dampingFactor = 0.002;
-  const rotationSpeed = useRef({ x: 0, y: 0 });
+import gsap from "gsap";
 
-  const onMouseDown = (e) => {
-    isDragging.current = true;
-  };
-
-  const onMouseMove = (e) => {
-    if (isDragging.current) {
-      const { x, y } = movement.current;
-      movement.current = {
-        x: e.movementX,
-        y: e.movementY,
-      };
-      camera.position.x -= x * dampingFactor;
-      camera.position.y += y * dampingFactor;
-    }
-  };
-
-  const onMouseUp = () => {
-    isDragging.current = false;
-  };
-
-  useEffect(() => {
-    domElement.addEventListener("mousedown", onMouseDown);
-    domElement.addEventListener("mouseup", onMouseUp);
-    domElement.addEventListener("mousemove", onMouseMove);
-
-    return () => {
-      domElement.removeEventListener("mousedown", onMouseDown);
-      domElement.removeEventListener("mouseup", onMouseUp);
-      domElement.removeEventListener("mousemove", onMouseMove);
-    };
-  }, [domElement]);
-
-  useFrame(() => {
-    const { x, y } = movement.current;
-    if (isDragging.current) {
-      camera.position.x -= x * dampingFactor;
-      camera.position.y += y * dampingFactor;
-      // Gradually reduce the movement to zero
-      movement.current = {
-        x: x * (1 - dampingFactor),
-        y: y * (1 - dampingFactor),
-      };
-    }
-    rotationSpeed.current.x *= 1 - dampingFactor;
-    rotationSpeed.current.y *= 1 - dampingFactor;
-
-    // Apply the rotation speed to the camera rotation
-    camera.rotation.x += rotationSpeed.current.y;
-    camera.rotation.y += rotationSpeed.current.x;
-  });
-
-  return null;
-}
 function CustomFirstPersonControls(props) {
   const controls = useRef();
   const {
     camera,
     gl: { domElement },
   } = useThree();
+  const [currentCamPosition, setCurrentCamPosition] = useState(0);
+  const cameraPositions = [
+    { x: -0.446, y: -0.342, z: 0.032 },
+    { x: 0.95, y: -0.72, z: 0.665 },
+    { x: 0.82, y: -0.37, z: 1.67 },
+    { x: 0.906, y: 0.00023, z: 0.237 },
+    { x: 0.851, y: -0.217, z: -0.03 },
+  ];
+  const cameraRotations = [
+    { x: -0.494, y: -0.893, z: -0.397 },
+    { x: -2.44, y: -1.293, z: -2.465 },
+    { x: -3.06, y: -0.55, z: -3.099 },
+    { x: 0.29, y: -0.66, z: -0.183 },
+    { x: -1.39, y: -0.64, z: -1.28 },
+  ];
+
+  useEffect(() => {
+    const onMouseUp = () => {
+      const newPosition = cameraPositions[currentCamPosition];
+      const newRotation = cameraRotations[currentCamPosition];
+
+      if (newPosition && newRotation) {
+        gsap.to(camera.position, { ...newPosition, duration: 2.3 });
+        gsap.to(camera.rotation, { ...newRotation, duration: 2.3 });
+        setCurrentCamPosition(
+          (prevPosition) => (prevPosition + 1) % cameraPositions.length
+        );
+      }
+    };
+
+    domElement.addEventListener("mouseup", onMouseUp);
+    return () => {
+      domElement.removeEventListener("mouseup", onMouseUp);
+    };
+  }, [camera, currentCamPosition, domElement]);
+
   const moveState = useRef({ moving: false, lastMoveTime: 0 });
-  const dampingFactor = 0.02;
-  const timeout = 250; // Time in milliseconds after which the rotation stops
+  const dampingFactor = 0.01;
+  const timeout = 250; // Time in ms after which the rotation stops
 
   useFrame(() => {
     if (controls.current) {
@@ -217,13 +190,12 @@ export default function Main(props) {
           fov: 60,
           near: 0.1,
           far: 200,
-          position: [-0.942, 1, 0.41],
+          position: [-0.942, -0.5, 0.41],
           // rotation: [1.125, -1.2, -1.107],
         }}
       >
         {/* <OrbitControls /> */}
 
-        {/* <CameraController /> */}
         <CustomFirstPersonControls
           lookSpeed={0.05}
           movementSpeed={0}
