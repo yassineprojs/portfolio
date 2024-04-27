@@ -141,3 +141,28 @@ canvas {
   user-select: none;
   pointer-events: auto;
 }
+.buttonCam {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  pointer-events: none;
+}
+
+.cam_btn {
+  box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.5);
+  color: #c0c0c0;
+  padding: 0.5em 1.3em;
+  font-size: 1.1rem;
+  background: rgb(57, 76, 172);
+  border-radius: 16px;
+  outline: none;
+  cursor: pointer;
+  border: 3px solid #c0c0c0;
+  font-family: "Dosis", sans-serif;
+  font-weight: 500;
+  user-select: none;
+  pointer-events: all;
+}
