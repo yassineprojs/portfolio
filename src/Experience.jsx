@@ -1,4 +1,4 @@
-import { OrbitControls } from "@react-three/drei";
+import { useFrame, useThree } from "@react-three/fiber";
 import { Room, Floor2 } from "./Room";
 import { Perf } from "r3f-perf";
 
@@ -8,11 +8,20 @@ export default function Experience({
   visible,
   gameWon,
 }) {
+  // const { camera } = useThree();
+  // const cameraPosition = camera.position;
+  // const cameraRotation = camera.rotation;
+
+  // useFrame(() => {
+  //   console.log(cameraRotation);
+  //   console.log(cameraPosition);
+  // });
+
   return (
     <>
       <Perf position="top-left" />
       <color args={["#ececec"]} attach="background"></color>
-      <OrbitControls />
+
       <ambientLight intensity={1} />
       <Room
         onMeshClick={onMeshClick}

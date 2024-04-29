@@ -75,12 +75,13 @@ const wordGroups = {
 };
 
 export function Cube({ visible, onAllWordsCompleted }) {
-  const { nodes, materials } = useGLTF("./models/cubes/letters9.glb");
+  const { nodes } = useGLTF("./models/cubes/letters9.glb");
 
   const [cubeHovered, setHovered] = useState(false);
-  useCursor(cubeHovered);
 
   const [completedWords, setCompletedWords] = useState({});
+  const [dissolve, setDissolve] = useState(visible);
+  useCursor(cubeHovered);
 
   // Initialize meshStates with a function to ensure nodes are loaded
   const [meshStates, setMeshStates] = useState(() => {
@@ -178,8 +179,17 @@ export function Cube({ visible, onAllWordsCompleted }) {
       return newState;
     });
   };
+  //render only when hitn paper clicked
+  // const [render, setRender] = useState(shouldRender);
 
-  const [dissolve, setDissolve] = useState(visible);
+  // const [renderCubes,setRenderCubes]=useState(false)
+
+  // useEffect(() => {
+  //   if (shouldRender) {
+  //     setRender(true);
+  //   }
+  // }, [shouldRender]);
+
   useEffect(() => {
     setDissolve(visible); // Set dissolve to match visibility
   }, [visible]);
@@ -196,7 +206,8 @@ export function Cube({ visible, onAllWordsCompleted }) {
         api.start({ rotation });
         const boxMaterial = nodes[name].material;
 
-        return (
+        // return (
+        return visible ? (
           <animated.mesh
             onPointerOver={() => setHovered(true)}
             onPointerOut={() => setHovered(false)}
@@ -213,7 +224,8 @@ export function Cube({ visible, onAllWordsCompleted }) {
               color="#ADFF2F"
             />
           </animated.mesh>
-        );
+        ) : // );
+        null;
       })}
     </group>
   );

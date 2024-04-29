@@ -2,6 +2,7 @@ import {
   CameraControls,
   Float,
   Html,
+  PerspectiveCamera,
   Text,
   useTexture,
 } from "@react-three/drei";
@@ -10,16 +11,24 @@ import { Projects, currentProjectAtom, projects } from "./Projects.jsx";
 import { useEffect, useRef, useState } from "react";
 import { useAtom } from "jotai";
 import { useThree } from "@react-three/fiber";
-export default function InsideWorld({ world }) {
+const insideWorldTexture = new THREE.TextureLoader().load(
+  "textures/insideWorld.png"
+);
+
+export default function InsideWorld({ world, onBackClick }) {
   const map = useTexture("textures/insideWorld.png");
   const [currentLocation, setCurrentLocation] = useState(world);
-  // const controlsRef = useRef();
+  const controlsRef = useRef();
 
   // const scene = useThree((state) => state.scene);
 
   useEffect(() => {
     setCurrentLocation(world);
   }, [world]);
+
+  const handleBackClick = () => {
+    onBackClick();
+  };
 
   // useEffect(() => {
   //   if (currentLocation === "room") {
@@ -48,7 +57,7 @@ export default function InsideWorld({ world }) {
         floatingRange={[-0.07, 0.07]}
       >
         <Text
-          // name="lovelyDog"
+          name="lovelyDog"
           fontSize={0.4}
           font="./fonts/orbiton.ttf"
           color={"#a8b3aa"}
@@ -58,14 +67,24 @@ export default function InsideWorld({ world }) {
           Projects
         </Text>
       </Float>
-      {/* <CameraControls ref={controlsRef} /> */}
+
+      <CameraControls
+        ref={controlsRef}
+        maxPolarAngle={Math.PI / 2}
+        minPolarAngle={1}
+      />
       <mesh position-y={1}>
         <ambientLight intensity={4} />
-        <sphereGeometry args={[3, 28, 28]} />
-        <meshStandardMaterial map={map} side={THREE.BackSide} />
+        <sphereGeometry args={[3, 24, 24]} />
+        <meshStandardMaterial map={insideWorldTexture} side={THREE.BackSide} />
       </mesh>
       <Projects />
       {currentLocation === "insideWorld" && <ProjectsSection />}
+      <Html fullscreen style={{ margin: "15px 20px" }}>
+        <button className="back_room_btn" onClick={handleBackClick}>
+          Back to Room
+        </button>
+      </Html>
     </>
   );
 }
@@ -84,7 +103,7 @@ const ProjectsSection = () => {
 
   return (
     <Html
-      position={[1.1, 0.85, 1]}
+      position={[1.1, -1.15, 0.9]}
       rotation-y={-2.66}
       distanceFactor={3}
       ref={projectHtml}

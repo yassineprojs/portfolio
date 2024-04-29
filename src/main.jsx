@@ -67,6 +67,11 @@ function CustomFirstPersonControls(props) {
 
   useFrame(() => {
     if (controlsRef.current) {
+      // Enforce the verticalMax constraint
+      controlsRef.current.lat = Math.max(
+        -props.verticalMax,
+        Math.min(props.verticalMax, controlsRef.current.lat)
+      );
       const timeSinceLastMove = Date.now() - moveState.current.lastMoveTime;
       if (moveState.current.moving && timeSinceLastMove > timeout) {
         controlsRef.current.lookSpeed *= 1 - dampingFactor;
@@ -106,20 +111,20 @@ function CustomFirstPersonControls(props) {
 }
 
 export default function Main(props) {
-  // for cam animation
-  const cameraPositions = [
-    { x: -0.942, y: 0, z: 0.41 },
-    { x: -0.446, y: -0.342, z: 0.032 },
-    { x: 0.95, y: -0.72, z: 0.665 },
-    { x: 0.82, y: -0.37, z: 1.67 },
-    { x: 0.906, y: 0.00023, z: 0.237 },
-    { x: 0.851, y: -0.217, z: -0.03 },
-  ];
-  const [camera, setCamera] = useState();
-  const { goToNextPosition, goToPreviousPosition } = useCameraAnimations(
-    camera,
-    cameraPositions
-  );
+  // for camera animations
+  // const cameraPositions = [
+  //   { x: -0.942, y: 0, z: 0.41 },
+  //   { x: -0.446, y: -0.342, z: 0.032 },
+  //   { x: 0.95, y: -0.5, z: 0.665 },
+  //   { x: 0.82, y: -0.37, z: 1.67 },
+  //   { x: 0.906, y: 0.00023, z: 0.237 },
+  //   { x: 0.851, y: -0.7, z: -0.03 },
+  // ];
+  // const [camera, setCamera] = useState();
+  // const { goToNextPosition, goToPreviousPosition } = useCameraAnimations(
+  //   camera,
+  //   cameraPositions
+  // );
 
   const script = [
     {
@@ -208,39 +213,44 @@ export default function Main(props) {
 
   return (
     <>
-      <CameraContext.Provider value={setCamera}>
-        <Canvas
-          camera={{
-            fov: 60,
-            near: 0.1,
-            far: 200,
-            position: [-0.942, 0, 0.41],
-          }}
-        >
-          {/* <OrbitControls /> */}
+      {/* <CameraContext.Provider value={setCamera}> */}
+      <Canvas
+        camera={{
+          fov: 60,
+          near: 0.1,
+          far: 200,
+          position: [-0.942, 0, 0.41],
+        }}
+      >
+        <OrbitControls />
 
-          <CustomFirstPersonControls
+        {/* <CustomFirstPersonControls
             lookSpeed={0.01}
             movementSpeed={0}
             noFly={true}
             activeLook={true}
             autoForward={false}
+            verticalMax={22}
+          /> */}
+
+        <Center>
+          <color attach="background" args={["#DFF5FF"]} />
+          <Experience
+            onMeshClick={() => setIsOverlayVisible(true)}
+            onHintClick={handleHintClick}
+            visible={isCubeVisible}
+            gameWon={isGameWon}
           />
 
-          <Center>
-            <color attach="background" args={["#DFF5FF"]} />
-            <Experience
-              onMeshClick={() => setIsOverlayVisible(true)}
-              onHintClick={handleHintClick}
-              visible={isCubeVisible}
-              gameWon={isGameWon}
-            />
+          {/* <Cube visible={isCubeVisible} onAllWordsCompleted={setIsGameWon} /> */}
+          <Cube
+            visible={isCubeVisible && !isGameWon}
+            onAllWordsCompleted={setIsGameWon}
+          />
+        </Center>
+      </Canvas>
 
-            <Cube visible={isCubeVisible} onAllWordsCompleted={setIsGameWon} />
-          </Center>
-        </Canvas>
-
-        <div
+      {/* <div
           style={{
             position: "absolute",
             width: "95%",
@@ -261,7 +271,7 @@ export default function Main(props) {
             <ion-icon name="caret-forward-outline"></ion-icon>
           </button>
         </div>
-      </CameraContext.Provider>
+      </CameraContext.Provider> */}
       {boxCubeVisible && (
         <div
           style={{

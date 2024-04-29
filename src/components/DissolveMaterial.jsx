@@ -66,6 +66,7 @@ export function DissolveMaterial({
         baseMaterial={baseMaterial}
         vertexShader={vertexShader}
         fragmentShader={fragmentShader}
+        silent={true}
         uniforms={uniforms.current}
         toneMapped={false}
         transparent

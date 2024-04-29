@@ -2,7 +2,7 @@ import { Image, RoundedBox, Text, useCursor } from "@react-three/drei";
 import { useFrame, useThree } from "@react-three/fiber";
 import { motion } from "framer-motion-3d";
 import * as THREE from "three";
-import { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { atom, useAtom } from "jotai";
 
 export const projects = [
@@ -68,13 +68,14 @@ const Project = (props) => {
 };
 
 export const currentProjectAtom = atom(Math.floor(projects.length / 2));
-export const Projects = () => {
+
+export const Projects = React.memo(() => {
   const [currentProject] = useAtom(currentProjectAtom);
   return (
     <group position={[0, 1, 0]}>
       {projects.map((project, index) => (
         <motion.group
-          key={"project_" + index}
+          key={project.title}
           position={[0, 0, index * 2.5]}
           animate={{
             x: (index - currentProject) * 1,
@@ -87,4 +88,4 @@ export const Projects = () => {
       ))}
     </group>
   );
-};
+});

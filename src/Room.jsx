@@ -6,6 +6,7 @@ Command: npx gltfjsx@6.1.12 .\public\models\gltf\bakedPortfolio.gltf
 import * as THREE from "three";
 import React, { useRef, useState, useEffect, useCallback } from "react";
 import {
+  shaderMaterial,
   MeshPortalMaterial,
   useCursor,
   useGLTF,
@@ -15,12 +16,28 @@ import { Decal, Html } from "@react-three/drei";
 import { useControls } from "leva";
 import { DissolveMaterial } from "./components/DissolveMaterial.jsx";
 import InsideWorld from "./components/insideWorld.jsx";
-import { useFrame } from "@react-three/fiber";
+import { extend, useFrame, useLoader, useThree } from "@react-three/fiber";
 import { easing } from "maath";
+import { debounce } from "lodash";
+// import WaveShaderMaterial from "./components/Paper.jsx";
+// extend({ WaveShaderMaterial });
 
 export function Room({ onMeshClick, onHintClick, visibleCube, gameWon }) {
   const { nodes, materials } = useGLTF("./models/bekedPortfolio7.glb");
   const textbill = useRef();
+  const [hovered, setHovered] = useState();
+  useCursor(hovered);
+
+  const [hintHovered, setHintHovered] = useState();
+  useCursor(hintHovered);
+
+  const portalMaterial = useRef();
+  const [active, setActive] = useState(0);
+  const [currentLocation, setCurrentLocation] = useState("room");
+  const [isPortalActive, setIsPortalActive] = useState(false);
+
+  const [phoneHovered, setPhoneHovered] = useState(false);
+  useCursor(phoneHovered);
 
   const { rotationIframe, positionIframe } = useControls({
     positionIframe: {
@@ -32,6 +49,7 @@ export function Room({ onMeshClick, onHintClick, visibleCube, gameWon }) {
       step: 0.001,
     },
   });
+
   const chairRef = useRef();
 
   /***** textures *******/
@@ -162,104 +180,78 @@ export function Room({ onMeshClick, onHintClick, visibleCube, gameWon }) {
     map: pinsInsideBooksBaked,
   });
 
-  const [hovered, setHovered] = useState();
-  useCursor(hovered);
+  const handleClickPhone = useCallback(
+    debounce(() => {
+      setIsPortalActive((prev) => !prev);
+      setCurrentLocation((prevLocation) =>
+        prevLocation === "room" ? "insideWorld" : "room"
+      );
+    }, 200),
+    []
+  );
 
-  const [hintHovered, setHintHovered] = useState();
-  useCursor(hintHovered);
+  const handleBackClick = useCallback(() => {
+    setIsPortalActive(false);
+    setCurrentLocation("room");
+  }, []);
 
-  // const portalMaterial = useRef();
-  // const [active, setActive] = useState(0);
-  // const [currentLocation, setCurrentLocation] = useState("room");
-
-  // const handleDoubleClick = useCallback(() => {
-  //   setActive((prevActive) => (prevActive === 0 ? 1 : 0));
-  //   setCurrentLocation((prevLocation) =>
-  //     prevLocation === "room" ? "insideWorld" : "room"
-  //   );
-  // }, []);
-
-  // useFrame((_state, delta) => {
-  //   easing.damp(portalMaterial.current, "blend", active ? 1 : 0, 0.2, delta);
-  // });
+  useFrame((_state, delta) => {
+    if (portalMaterial.current) {
+      easing.damp(
+        portalMaterial.current,
+        "blend",
+        isPortalActive ? 1 : 0,
+        0.3,
+        delta
+      );
+    }
+  });
 
   /** code ** */
+  // const waveRef = useRef();
+  // useFrame(({ clock }) => (waveRef.current.uTime = clock.getElapsedTime()));
+  // const plGeometry = new THREE.PlaneGeometry(1, 1, 10, 10);
+  // nodes.Plane014.geometry = plGeometry;
+
+  // const [certifImage] = useLoader(THREE.TextureLoader, [
+  //   "./images/Certifs.png",
+  // ]);
+
   return (
     <group dispose={null}>
-      {/* pc */}
-      <group position={[1.52, 1.002, 0.528]} rotation={[0, 0, 0.03]}>
-        <mesh geometry={nodes.defaultMaterial002.geometry} material={pc} />
-        <mesh geometry={nodes.defaultMaterial002_1.geometry} material={pc} />
-        <mesh geometry={nodes.defaultMaterial002_2.geometry} material={pc} />
-        <mesh geometry={nodes.defaultMaterial002_3.geometry} material={pc} />
-        <mesh geometry={nodes.defaultMaterial002_4.geometry} material={pc} />
-        <mesh geometry={nodes.defaultMaterial002_5.geometry} material={pc} />
-        <mesh geometry={nodes.defaultMaterial002_6.geometry} material={pc} />
-        <mesh geometry={nodes.defaultMaterial002_7.geometry} material={pc} />
-        <mesh geometry={nodes.defaultMaterial002_8.geometry} material={pc} />
-        {/* <mesh geometry={nodes.defaultMaterial002_9.geometry} material={pc}> */}
-        {/* <Html
-          style={{ userSelect: "none", pointerEvents: "none" }}
-          ref={textbill}
-          wrapperClass="htmlScreen"
-          transform
-          center
-          distanceFactor={0.155}
-          // position={[positionIframe.x, 0.37, positionIframe.z]}
-          position={[-0.2, 0.37, 0.02]}
-          rotation={[rotationIframe.x, -Math.PI / 2, rotationIframe.z]}
-        >
-          <iframe src="https://yassineprojs.github.io/innerWebsite/" />
-        </Html> */}
-        {/* </mesh> */}
-      </group>
       {/* phone */}
       <group position={[1.202, 1.036, -0.001]}>
         <mesh
+          onPointerOver={() => setPhoneHovered(true)}
+          onPointerOut={() => setPhoneHovered(false)}
           geometry={nodes.defaultMaterial013.geometry}
           material={phone}
-          // onDoubleClick={handleDoubleClick}
+          onClick={handleClickPhone}
         />
-        <mesh geometry={nodes.defaultMaterial013_1.geometry}>
-          {/* <MeshPortalMaterial ref={portalMaterial}>
-            <InsideWorld world={currentLocation} />
-          </MeshPortalMaterial> */}
-        </mesh>
-      </group>
 
-      <group position={[0.278, 0.793, -0.715]}>
         <mesh
-          geometry={
-            nodes.CassetteTape_Main_low_01_1_CassetteTape_01a_0001.geometry
-          }
-          material={voiceRcorderCasetteMaterial}
-        />
-        <mesh
-          onClick={onMeshClick}
-          onPointerOver={() => setHovered(true)}
-          onPointerOut={() => setHovered(false)}
-          geometry={
-            nodes.CassetteTape_Main_low_01_1_CassetteTape_01a_0001_1.geometry
-          }
-          material={voiceRcorderCasetteMaterial}
-        />
-        {/* {currentLocation === "room" && ( */}
-        <Html
-          distanceFactor={1.5}
-          center
-          wrapperClass="recorder"
-          position={[-0.1, 0.2, 0]}
-          style={{ color: "#fff" }}
+          geometry={nodes.defaultMaterial013_1.geometry}
+          material={new THREE.MeshBasicMaterial({ color: "grey" })}
         >
-          Click Me
-        </Html>
-
-        {/* )} */}
+          {isPortalActive && (
+            <MeshPortalMaterial ref={portalMaterial}>
+              <InsideWorld
+                world={currentLocation}
+                onBackClick={handleBackClick}
+              />
+            </MeshPortalMaterial>
+          )}
+        </mesh>
       </group>
 
       {/* boardPapers */}
       <group position={[1.762, 1.778, -0.31]}>
         <mesh geometry={nodes.Plane014.geometry}>
+          {/* <waveShaderMaterial
+            uColor={"hotpink"}
+            ref={waveRef}
+            uTexture={certifImage}
+          /> */}
           {gameWon && (
             <DissolveMaterial baseMaterial={bordPaper} visible={visibleCube} />
           )}
@@ -284,6 +276,65 @@ export function Room({ onMeshClick, onHintClick, visibleCube, gameWon }) {
         <mesh geometry={nodes.Plane014_5.geometry} material={bordPaper} />
         <mesh geometry={nodes.Plane014_6.geometry} material={bordPaper} />
       </group>
+      {/* pc */}
+
+      <group position={[1.52, 1.002, 0.528]} rotation={[0, 0, 0.03]}>
+        <mesh geometry={nodes.defaultMaterial002.geometry} material={pc} />
+        <mesh geometry={nodes.defaultMaterial002_1.geometry} material={pc} />
+        <mesh geometry={nodes.defaultMaterial002_2.geometry} material={pc} />
+        <mesh geometry={nodes.defaultMaterial002_3.geometry} material={pc} />
+        <mesh geometry={nodes.defaultMaterial002_4.geometry} material={pc} />
+        <mesh geometry={nodes.defaultMaterial002_5.geometry} material={pc} />
+        <mesh geometry={nodes.defaultMaterial002_6.geometry} material={pc} />
+        <mesh geometry={nodes.defaultMaterial002_7.geometry} material={pc} />
+        <mesh geometry={nodes.defaultMaterial002_8.geometry} material={pc} />
+        {/* <Html
+          style={{
+            userSelect: "none",
+            pointerEvents: "none",
+          }}
+          ref={textbill}
+          wrapperClass="htmlScreen"
+          transform
+          center
+          distanceFactor={0.155}
+          // position={[positionIframe.x, 0.37, positionIframe.z]}
+          position={[-0.2, 0.37, 0.02]}
+          rotation={[rotationIframe.x, -Math.PI / 2, rotationIframe.z]}
+        >
+          <iframe src="https://yassineprojs.github.io/innerWebsite/" />
+        </Html> */}
+      </group>
+
+      <group position={[0.278, 0.793, -0.715]}>
+        <mesh
+          geometry={
+            nodes.CassetteTape_Main_low_01_1_CassetteTape_01a_0001.geometry
+          }
+          material={voiceRcorderCasetteMaterial}
+        />
+        <mesh
+          onClick={onMeshClick}
+          onPointerOver={() => setHovered(true)}
+          onPointerOut={() => setHovered(false)}
+          geometry={
+            nodes.CassetteTape_Main_low_01_1_CassetteTape_01a_0001_1.geometry
+          }
+          material={voiceRcorderCasetteMaterial}
+        />
+        {currentLocation === "room" && (
+          <Html
+            distanceFactor={1.5}
+            center
+            wrapperClass="recorder"
+            position={[-0.1, 0.2, 0]}
+            style={{ color: "#fff" }}
+          >
+            Click Me
+          </Html>
+        )}
+      </group>
+
       <mesh
         geometry={nodes.hintPaper.geometry}
         // material={cnsfcbw}
