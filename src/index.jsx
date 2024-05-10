@@ -4,12 +4,14 @@ import ReactDOM from "react-dom/client";
 import Main from "./main.jsx";
 import { StrictMode } from "react";
 import { Leva } from "leva";
-
+import { LocationProvider } from "./utils/LocationContext.jsx";
 const root = ReactDOM.createRoot(document.querySelector("#root"));
 
 root.render(
   <StrictMode>
-    <Main />
+    <LocationProvider>
+      <Main />
+    </LocationProvider>
     <Leva collapsed />
   </StrictMode>
 );

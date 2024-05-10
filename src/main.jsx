@@ -13,6 +13,7 @@ import {
   PerspectiveCamera,
 } from "@react-three/drei";
 import gsap from "gsap";
+import { useLocation } from "./utils/LocationContext.jsx";
 
 // Create a Camera Context
 const CameraContext = createContext();
@@ -111,6 +112,7 @@ function CustomFirstPersonControls(props) {
 }
 
 export default function Main(props) {
+  const { currentLocation } = useLocation();
   // for camera animations
   // const cameraPositions = [
   //   { x: -0.942, y: 0, z: 0.41 },
@@ -129,23 +131,23 @@ export default function Main(props) {
   const script = [
     {
       id: 1,
-      text: "Hello, my name is Ahmed Yassine Meddeb",
+      text: "Hello, my name is Ahmed Yassine Meddeb, i'm 23 years old and i'm majoring in computer engineering",
       animation: "waving",
     },
     {
       id: 2,
-      text: "This is my portfolio",
+      text: "This is my portfolio, it combines my passion for web development and cyber security",
 
       animation: "talking",
     },
     {
       id: 3,
-      text: "follow the directions, explore the room, and find the hidden indices",
+      text: "follow the directions, explore the room, and find the hidden indices and hopefully you'll get to know me better!😊",
       animation: "talking2",
     },
     {
       id: 4,
-      text: "start with the pc, Good luck",
+      text: "start with the pc, Good luck! ",
       animation: "Idle",
     },
   ];
@@ -242,6 +244,7 @@ export default function Main(props) {
             gameWon={isGameWon}
           />
 
+          {/* uncomment if you want the lagging of cubes appearing removed and see cubes.jsx also */}
           {/* <Cube visible={isCubeVisible} onAllWordsCompleted={setIsGameWon} /> */}
           <Cube
             visible={isCubeVisible && !isGameWon}
@@ -249,29 +252,31 @@ export default function Main(props) {
           />
         </Center>
       </Canvas>
+      {/* {currentLocation === "room" && (
+          <div
+            style={{
+              position: "absolute",
+              width: "95%",
 
-      {/* <div
-          style={{
-            position: "absolute",
-            width: "95%",
-
-            top: "50%",
-            left: "50%",
-            transform: "translate(-50%,50%)",
-            display: "flex",
-            justifyContent: "space-between",
-            alignItems: "center",
-            pointerEvents: "none",
-          }}
-        >
-          <button onClick={goToPreviousPosition} className="cam_btn">
-            <ion-icon name="caret-back-outline"></ion-icon>
-          </button>
-          <button onClick={goToNextPosition} className="cam_btn">
-            <ion-icon name="caret-forward-outline"></ion-icon>
-          </button>
-        </div>
+              top: "50%",
+              left: "50%",
+              transform: "translate(-50%,50%)",
+              display: "flex",
+              justifyContent: "space-between",
+              alignItems: "center",
+              pointerEvents: "none",
+            }}
+          >
+            <button onClick={goToPreviousPosition} className="cam_btn">
+              <ion-icon name="caret-back-outline"></ion-icon>
+            </button>
+            <button onClick={goToNextPosition} className="cam_btn">
+              <ion-icon name="caret-forward-outline"></ion-icon>
+            </button>
+          </div>
+        )}
       </CameraContext.Provider> */}
+
       {boxCubeVisible && (
         <div
           style={{

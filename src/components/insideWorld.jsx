@@ -4,6 +4,7 @@ import {
   Html,
   PerspectiveCamera,
   Text,
+  useCursor,
   useTexture,
 } from "@react-three/drei";
 import * as THREE from "three";
@@ -11,13 +12,16 @@ import { Projects, currentProjectAtom, projects } from "./Projects.jsx";
 import { useEffect, useRef, useState } from "react";
 import { useAtom } from "jotai";
 import { useThree } from "@react-three/fiber";
+import { useLocation } from "../utils/LocationContext.jsx";
+
 const insideWorldTexture = new THREE.TextureLoader().load(
   "textures/insideWorld.png"
 );
 
 export default function InsideWorld({ world, onBackClick }) {
   const map = useTexture("textures/insideWorld.png");
-  const [currentLocation, setCurrentLocation] = useState(world);
+  const { currentLocation, setCurrentLocation } = useLocation();
+  const [projectTitle, setProjectTitle] = useState(null);
   const controlsRef = useRef();
 
   // const scene = useThree((state) => state.scene);
@@ -30,21 +34,24 @@ export default function InsideWorld({ world, onBackClick }) {
     onBackClick();
   };
 
+  const [textHovered, setTextHovered] = useState(false);
+  useCursor(textHovered);
+
   // useEffect(() => {
   //   if (currentLocation === "room") {
   //     const targetPosition = new THREE.Vector3();
-  //     scene.getObjectByName("lovelyDog").getWorldPosition(targetPosition);
+  //     scene.getObjectByName(projectTitle).getWorldPosition(targetPosition);
   //     controlsRef.current.setLookAt(
-  //       -3,
-  //       3,
+  //       -0.942,
   //       0,
+  //       0.41,
   //       targetPosition.x,
   //       targetPosition.y,
   //       targetPosition.z,
   //       true
   //     );
   //   } else {
-  //     controlsRef.current.setLookAt(0, 0, 0, -3, 3, 0, true);
+  //     controlsRef.current.setLookAt(-0.942, 1, 0.41, 1, 0, 0, true);
   //   }
   // }, [currentLocation]);
 
@@ -52,39 +59,49 @@ export default function InsideWorld({ world, onBackClick }) {
     <>
       <Float
         floatIntensity={0.7}
-        rotationIntensity={0.7}
+        rotationIntensity={0.4}
         speed={0.7}
-        floatingRange={[-0.07, 0.07]}
+        floatingRange={[-0.03, 0.03]}
       >
         <Text
-          name="lovelyDog"
-          fontSize={0.4}
+          projectTitle={projectTitle}
+          fontSize={0.35}
           font="./fonts/orbiton.ttf"
-          color={"#a8b3aa"}
-          position={[1.2, 1.6, -1.5]}
-          rotation={[0, -Math.PI / 2, 0]}
+          color={"#71826c"}
+          position={[1.2, 0.5, -1.8]}
+          rotation={[0, 5.5, 0]}
         >
           Projects
         </Text>
       </Float>
 
-      <CameraControls
-        ref={controlsRef}
-        maxPolarAngle={Math.PI / 2}
-        minPolarAngle={1}
-      />
-      <mesh position-y={1}>
+      <mesh position={[1, 0, 0]}>
         <ambientLight intensity={4} />
         <sphereGeometry args={[3, 24, 24]} />
         <meshStandardMaterial map={insideWorldTexture} side={THREE.BackSide} />
       </mesh>
-      <Projects />
-      {currentLocation === "insideWorld" && <ProjectsSection />}
-      <Html fullscreen style={{ margin: "15px 20px" }}>
-        <button className="back_room_btn" onClick={handleBackClick}>
+      <Float
+        floatIntensity={0.7}
+        rotationIntensity={0.3}
+        speed={0.7}
+        floatingRange={[-0.01, 0.01]}
+      >
+        <Text
+          onPointerOver={() => setTextHovered(true)}
+          onPointerOut={() => setTextHovered(false)}
+          fontSize={0.18}
+          font="./fonts/orbiton.ttf"
+          color={"#71826c"}
+          position={[1.6, -0.2, -1.8]}
+          onClick={handleBackClick}
+          rotation={[0, 5.5, 0]}
+        >
           Back to Room
-        </button>
-      </Html>
+        </Text>
+      </Float>
+      <Projects />
+
+      {currentLocation === "insideWorld" && <ProjectsSection />}
     </>
   );
 }
@@ -103,8 +120,8 @@ const ProjectsSection = () => {
 
   return (
     <Html
-      position={[1.1, -1.15, 0.9]}
-      rotation-y={-2.66}
+      position={[3.8, -2.2, 0.3]}
+      rotation-y={1.5}
       distanceFactor={3}
       ref={projectHtml}
       wrapperClass="htmlProject"

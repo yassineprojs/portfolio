@@ -72,7 +72,7 @@ export const currentProjectAtom = atom(Math.floor(projects.length / 2));
 export const Projects = React.memo(() => {
   const [currentProject] = useAtom(currentProjectAtom);
   return (
-    <group position={[0, 1, 0]}>
+    <group position={[1.5, 0, -0.2]} rotation={[0, 1, 0]}>
       {projects.map((project, index) => (
         <motion.group
           key={project.title}

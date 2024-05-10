@@ -19,12 +19,17 @@ import InsideWorld from "./components/insideWorld.jsx";
 import { extend, useFrame, useLoader, useThree } from "@react-three/fiber";
 import { easing } from "maath";
 import { debounce } from "lodash";
+import { useLocation } from "./utils/LocationContext.jsx";
+
 // import WaveShaderMaterial from "./components/Paper.jsx";
 // extend({ WaveShaderMaterial });
 
 export function Room({ onMeshClick, onHintClick, visibleCube, gameWon }) {
   const { nodes, materials } = useGLTF("./models/bekedPortfolio7.glb");
   const textbill = useRef();
+  const { camera } = useThree();
+  const { currentLocation, setCurrentLocation } = useLocation();
+
   const [hovered, setHovered] = useState();
   useCursor(hovered);
 
@@ -33,7 +38,7 @@ export function Room({ onMeshClick, onHintClick, visibleCube, gameWon }) {
 
   const portalMaterial = useRef();
   const [active, setActive] = useState(0);
-  const [currentLocation, setCurrentLocation] = useState("room");
+  // const [currentLocation, setCurrentLocation] = useState("room");
   const [isPortalActive, setIsPortalActive] = useState(false);
 
   const [phoneHovered, setPhoneHovered] = useState(false);
@@ -69,7 +74,7 @@ export function Room({ onMeshClick, onHintClick, visibleCube, gameWon }) {
     "/bakedPortfolioTextures/bedBakedFinalFinal.jpg"
   );
   const boardPapers = loadAndConfigureTexture(
-    "/bakedPortfolioTextures/boardPapersBaked2.jpg"
+    "/bakedPortfolioTextures/papersBoard3Baked3.jpg"
   );
   const booksPC = loadAndConfigureTexture(
     "/bakedPortfolioTextures/outsideBooksPCBaked.jpg"
@@ -116,7 +121,12 @@ export function Room({ onMeshClick, onHintClick, visibleCube, gameWon }) {
     "/bakedPortfolioTextures/newBooksDecorPins.jpg"
   );
   const hintPaperTexture = useTexture("/bakedPortfolioTextures/qr1.png");
+  hintPaperTexture.colorSpace = THREE.SRGBColorSpace;
 
+  const meAndHachhouch = useTexture("./images/meHachhouch.jpg");
+  meAndHachhouch.colorSpace = THREE.SRGBColorSpace;
+  meAndHachhouch.offset.set(-0.2, -0.1);
+  meAndHachhouch.repeat.set(1.5, 1);
   //********** materials ***********/
 
   const bagMaterial = new THREE.MeshBasicMaterial({
@@ -180,6 +190,10 @@ export function Room({ onMeshClick, onHintClick, visibleCube, gameWon }) {
     map: pinsInsideBooksBaked,
   });
 
+  const posterMaterial = new THREE.MeshBasicMaterial({
+    map: meAndHachhouch,
+  });
+
   const handleClickPhone = useCallback(
     debounce(() => {
       setIsPortalActive((prev) => !prev);
@@ -187,7 +201,8 @@ export function Room({ onMeshClick, onHintClick, visibleCube, gameWon }) {
         prevLocation === "room" ? "insideWorld" : "room"
       );
     }, 200),
-    []
+
+    [camera]
   );
 
   const handleBackClick = useCallback(() => {
@@ -266,7 +281,12 @@ export function Room({ onMeshClick, onHintClick, visibleCube, gameWon }) {
             <DissolveMaterial baseMaterial={bordPaper} visible={visibleCube} />
           )}
         </mesh>
-        <mesh geometry={nodes.Plane014_4.geometry}>
+        <mesh
+          onClick={onHintClick}
+          onPointerOver={() => setHintHovered(true)}
+          onPointerOut={() => setHintHovered(false)}
+          geometry={nodes.Plane014_4.geometry}
+        >
           {gameWon && (
             <DissolveMaterial baseMaterial={bordPaper} visible={visibleCube} />
           )}
@@ -340,13 +360,10 @@ export function Room({ onMeshClick, onHintClick, visibleCube, gameWon }) {
         // material={cnsfcbw}
         position={[1.735, 1.546, 0.109]}
         rotation={[Math.PI / 2, 0, Math.PI / 2]}
-        onClick={onHintClick}
-        onPointerOver={() => setHintHovered(true)}
-        onPointerOut={() => setHintHovered(false)}
       >
         <Decal
           position={[0, 0, -0.03]} // Position of the decal
-          rotation={[-0.15, 0, 0]} // Rotation of the decal (can be a vector or a degree in radians)
+          rotation={[-0.15, 0, 0]} // Rotation of the decal
           scale={[0.07, -0.01, 0.07]} // Scale of the decal
         >
           <meshBasicMaterial
@@ -356,6 +373,13 @@ export function Room({ onMeshClick, onHintClick, visibleCube, gameWon }) {
           />
         </Decal>
       </mesh>
+
+      {/* poster */}
+      <mesh
+        geometry={nodes.posterWall.geometry}
+        material={posterMaterial}
+        position={[1.807, 2.337, -1.159]}
+      />
 
       <group position={[1.774, 2.044, 0.261]} name="boardName">
         <mesh geometry={nodes.Cube037.geometry} material={cnsfcbw} />
@@ -484,6 +508,7 @@ export function Room({ onMeshClick, onHintClick, visibleCube, gameWon }) {
         position={[0.266, 0.208, 0.613]}
       />
 
+      {/* big lamp */}
       <group position={[-1.738, 1.008, -1.659]}>
         <mesh
           geometry={nodes.ARCADE_GREEN.geometry}
@@ -565,11 +590,6 @@ export function Room({ onMeshClick, onHintClick, visibleCube, gameWon }) {
         <mesh geometry={nodes.Mesh_2.geometry} material={plantsBakedMaterial} />
       </group>
 
-      <mesh
-        geometry={nodes.posterWall.geometry}
-        material={nodes.posterWall.material}
-        position={[1.807, 2.337, -1.159]}
-      />
       <group position={[1.218, 1.035, 0.429]}>
         <mesh
           geometry={nodes.Plane015.geometry}
