@@ -1,5 +1,5 @@
 import { useFrame, useThree } from "@react-three/fiber";
-// import { Room, Floor2 } from "./Room";
+import { Room, Floor2 } from "./Room";
 // import { Perf } from "r3f-perf";
 
 export default function Experience({
