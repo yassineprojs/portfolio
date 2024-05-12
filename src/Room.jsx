@@ -62,60 +62,60 @@ export function Room({ onMeshClick, onHintClick, visibleCube, gameWon }) {
   }
 
   const guitarChairCouchTvLittleLamp = loadAndConfigureTexture(
-    "/bakedPortfolioTextures/guitarChairCouchLampTVBaked.jpg"
+    "./bakedPortfolioTextures/guitarChairCouchLampTVBaked.jpg"
   );
-  const bag = loadAndConfigureTexture("/bakedPortfolioTextures/bagBaked.jpg");
+  const bag = loadAndConfigureTexture("./bakedPortfolioTextures/bagBaked.jpg");
   const bed = loadAndConfigureTexture(
-    "/bakedPortfolioTextures/bedBakedFinalFinal.jpg"
+    "./bakedPortfolioTextures/bedBakedFinalFinal.jpg"
   );
   const boardPapers = loadAndConfigureTexture(
-    "/bakedPortfolioTextures/papersBoard3Baked3.jpg"
+    "./bakedPortfolioTextures/papersBoard3Baked3.jpg"
   );
   const booksPC = loadAndConfigureTexture(
-    "/bakedPortfolioTextures/outsideBooksPCBaked.jpg"
+    "./bakedPortfolioTextures/outsideBooksPCBaked.jpg"
   );
   const cameraPolaroidBaked = loadAndConfigureTexture(
-    "/bakedPortfolioTextures/polaroidCamBaked.jpg"
+    "./bakedPortfolioTextures/polaroidCamBaked.jpg"
   );
   const CarpetNightStandFileCabBoardWindowBaked = loadAndConfigureTexture(
-    "/bakedPortfolioTextures/carpetBoardQRwindowFileCabNightStandBaked.jpg"
+    "./bakedPortfolioTextures/carpetBoardQRwindowFileCabNightStandBaked.jpg"
   );
   const deskBaked = loadAndConfigureTexture(
-    "/bakedPortfolioTextures/desk2Baked.jpg"
+    "./bakedPortfolioTextures/desk2Baked.jpg"
   );
   const mouseKeyboardBigLampBaked = loadAndConfigureTexture(
-    "/bakedPortfolioTextures/mouseKeyboardBigLampBaked.jpg"
+    "./bakedPortfolioTextures/mouseKeyboardBigLampBaked.jpg"
   );
   const pcBaked = loadAndConfigureTexture(
-    "/bakedPortfolioTextures/pcBaked.jpg"
+    "./bakedPortfolioTextures/pcBaked.jpg"
   );
   const phoneBaked = loadAndConfigureTexture(
-    "/bakedPortfolioTextures/phoneBaked.jpg"
+    "./bakedPortfolioTextures/phoneBaked.jpg"
   );
 
   const plantsBaked = loadAndConfigureTexture(
-    "/bakedPortfolioTextures/plantsBaked.jpg"
+    "./bakedPortfolioTextures/plantsBaked.jpg"
   );
   const vinylsBaked = loadAndConfigureTexture(
-    "/bakedPortfolioTextures/newVinylsBaked.jpg"
+    "./bakedPortfolioTextures/newVinylsBaked.jpg"
   );
   const voiceRcorderCasetteBAked = loadAndConfigureTexture(
-    "/bakedPortfolioTextures/voiceBaked.jpg"
+    "./bakedPortfolioTextures/voiceBaked.jpg"
   );
   const diskBaked = loadAndConfigureTexture(
-    "/bakedPortfolioTextures/diskBaked.jpg"
+    "./bakedPortfolioTextures/diskBaked.jpg"
   );
 
   const picsPolaroidBaked = loadAndConfigureTexture(
-    "/bakedPortfolioTextures/picsPolaroidBaked.jpg"
+    "./bakedPortfolioTextures/picsPolaroidBaked.jpg"
   );
   const floorWalls5Baked = loadAndConfigureTexture(
-    "/bakedPortfolioTextures/floorWalls5Baked.jpg"
+    "./bakedPortfolioTextures/floorWalls5Baked.jpg"
   );
   const pinsInsideBooksBaked = loadAndConfigureTexture(
-    "/bakedPortfolioTextures/newBooksDecorPins.jpg"
+    "./bakedPortfolioTextures/newBooksDecorPins.jpg"
   );
-  const hintPaperTexture = useTexture("/bakedPortfolioTextures/qr1.png");
+  const hintPaperTexture = useTexture("./bakedPortfolioTextures/qr1.png");
   hintPaperTexture.colorSpace = THREE.SRGBColorSpace;
 
   const meAndHachhouch = useTexture("./images/meHachhouch.jpg");
