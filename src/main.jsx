@@ -9,11 +9,13 @@ import {
   Center,
   FirstPersonControls,
   Html,
+  Loader,
   OrbitControls,
   PerspectiveCamera,
 } from "@react-three/drei";
 import gsap from "gsap";
 import { useLocation } from "./utils/LocationContext.jsx";
+// import LoaderComponent from "./components/Loader.jsx";
 
 // Creating a Camera Context
 const CameraContext = createContext();
@@ -251,6 +253,7 @@ export default function Main(props) {
             />
           </Center>
         </Canvas>
+        <Loader />
         {currentLocation === "room" && (
           <div
             style={{
