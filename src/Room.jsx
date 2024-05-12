@@ -606,7 +606,7 @@ export function Room({ onMeshClick, onHintClick, visibleCube, gameWon }) {
 export function Floor2(props) {
   const { nodes, materials } = useGLTF("./models/newBaked.glb");
   const doorWalls2PcScreen = useTexture(
-    "/bakedPortfolioTextures/doorWallsPcScreenBetter7.jpg"
+    "./bakedPortfolioTextures/doorWallsPcScreenBetter7.jpg"
   );
   doorWalls2PcScreen.flipY = false;
   doorWalls2PcScreen.colorSpace = THREE.SRGBColorSpace;
