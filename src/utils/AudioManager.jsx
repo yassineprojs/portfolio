@@ -1,5 +1,5 @@
 export const audios = {
-  win_word: new Audio("/audio/fairy.mp3"),
+  win_word: new Audio("/audio/5.mp3"),
 };
 export const playAudio = (audio) => {
   audio.currentTime = 0;

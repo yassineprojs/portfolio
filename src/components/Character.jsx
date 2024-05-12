@@ -17,10 +17,6 @@ export function Character(props) {
     },
   });
 
-  // const { animationName } = useControls({
-  //   animationName: { options: ["talking", "talking2", "waving", "Idle"] },
-  // });
-
   useEffect(() => {
     if (actions[props.animation] && meGrp.current) {
       actions[props.animation].reset().fadeIn(0.5).play();

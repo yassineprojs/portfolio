@@ -83,7 +83,7 @@ export function Cube({ visible, onAllWordsCompleted }) {
   const [dissolve, setDissolve] = useState(visible);
   useCursor(cubeHovered);
 
-  // Initialize meshStates with a function to ensure nodes are loaded
+  // Initialized meshStates with a function to ensure nodes are loaded
   const [meshStates, setMeshStates] = useState(() => {
     const initialState = {};
     Object.keys(nodes).forEach((key) => {
@@ -98,7 +98,7 @@ export function Cube({ visible, onAllWordsCompleted }) {
         key.startsWith("needs") ||
         key.startsWith("you")
       ) {
-        initialState[key] = { rotation: [0, 0, 0] }; // Set initial rotation to zero
+        initialState[key] = { rotation: [0, 0, 0] }; // setted initial rotation to zero
       }
     });
     return initialState;
@@ -107,7 +107,7 @@ export function Cube({ visible, onAllWordsCompleted }) {
   // Function to handle click and rotate the clicked mesh
   const handleClick = (name) => {
     setMeshStates((prevStates) => {
-      // Define the rotation sequence
+      //  rotation sequence
       const sequence = [
         [0, Math.PI / 2, 0], // 90 degrees around Y
         [0, Math.PI, 0], // 180 degrees around Y
@@ -118,7 +118,7 @@ export function Cube({ visible, onAllWordsCompleted }) {
         [0, 0, 0], //initial rotation
       ];
 
-      // Find the next rotation in the sequence
+      //  the next rotation in the sequence
       const currentRotation = prevStates[name].rotation;
       const currentIndex = sequence.findIndex((rot) =>
         rot.every((val, index) => val === currentRotation[index])
@@ -133,7 +133,7 @@ export function Cube({ visible, onAllWordsCompleted }) {
         );
       };
 
-      // Define the new state with the next rotation
+      // the new state with the next rotation
       const newState = {
         ...prevStates,
         [name]: {
@@ -230,3 +230,82 @@ export function Cube({ visible, onAllWordsCompleted }) {
     </group>
   );
 }
+
+// const correctRotations = {
+//   who: [0, 0, Math.PI / 2],
+//   who: [0, 1.5 * Math.PI, 0],
+//   who2: [0, 1.5 * Math.PI, 0],
+//   who3: [0, Math.PI / 2, 0],
+
+//   needs: [0, 0, 1.5 * Math.PI],
+//   needs2: [0, 0, Math.PI / 2],
+//   needs3: [0, 0, Math.PI / 2],
+//   needs4: [0, Math.PI / 2, 0], //1
+//   needs5: [0, Math.PI, 0], //2
+//   magic: [0, 0, Math.PI / 2], //4
+//   magic2: [0, 0, Math.PI / 2],
+//   magic3: [0, Math.PI / 2, 0],
+//   who3: [0, 1.5 * Math.PI, 0],
+
+//   needs: [0, 1.5 * Math.PI, 0],
+//   needs2: [0, 1.5 * Math.PI, 0],
+//   needs3: [0, 1.5 * Math.PI, 0],
+//   needs4: [0, 1.5 * Math.PI, 0], //1
+//   needs5: [0, 1.5 * Math.PI, 0], //2
+//   magic: [0, 1.5 * Math.PI, 0], //4
+//   magic2: [0, 1.5 * Math.PI, 0],
+//   magic3: [0, 1.5 * Math.PI, 0],
+//   magic4: [0, 1.5 * Math.PI, 0], //3
+//   magic5: [0, 0, Math.PI / 2],
+//   when: [0, 0, Math.PI / 2],
+//   magic5: [0, 1.5 * Math.PI, 0],
+//   when: [0, 1.5 * Math.PI, 0],
+//   when2: [0, 1.5 * Math.PI, 0],
+//   when3: [0, 0, Math.PI / 2],
+//   when4: [0, 0, 1.5 * Math.PI], //6
+//   you: [0, 0, 1.5 * Math.PI],
+//   you2: [0, Math.PI / 2, 0],
+//   you3: [0, Math.PI / 2, 0],
+//   can: [0, 0, Math.PI / 2],
+//   can2: [0, 0, Math.PI / 2],
+//   can3: [0, 0, 1.5 * Math.PI],
+//   make: [0, 0, Math.PI / 2],
+//   make2: [0, 0, Math.PI / 2],
+//   make3: [0, Math.PI, 0],
+//   make4: [0, 0, Math.PI / 2],
+//   data: [0, Math.PI / 2, 0],
+//   data2: [0, 0, Math.PI / 2],
+//   data3: [0, Math.PI, 0],
+//   data4: [0, 0, Math.PI / 2],
+//   disappear: [0, Math.PI / 2, 0],
+//   when3: [0, 1.5 * Math.PI, 0],
+//   when4: [0, 1.5 * Math.PI, 0], //6
+//   you: [0, 1.5 * Math.PI, 0],
+//   you2: [0, 1.5 * Math.PI, 0],
+//   you3: [0, 1.5 * Math.PI, 0],
+//   can: [0, 1.5 * Math.PI, 0],
+//   can2: [0, 1.5 * Math.PI, 0],
+//   can3: [0, 1.5 * Math.PI, 0],
+//   make: [0, 1.5 * Math.PI, 0],
+//   make2: [0, 1.5 * Math.PI, 0],
+//   make3: [0, 1.5 * Math.PI, 0],
+//   make4: [0, 1.5 * Math.PI, 0],
+//   data: [0, 1.5 * Math.PI, 0],
+//   data2: [0, 1.5 * Math.PI, 0],
+//   data3: [0, 1.5 * Math.PI, 0],
+//   data4: [0, 1.5 * Math.PI, 0],
+//   disappear: [0, 1.5 * Math.PI, 0],
+//   disappear2: [0, 1.5 * Math.PI, 0],
+//   disappear3: [0, Math.PI, 0],
+//   disappear4: [0, 0, Math.PI / 2],
+//   disappear3: [0, 1.5 * Math.PI, 0],
+//   disappear4: [0, 1.5 * Math.PI, 0],
+//   disappear5: [0, 1.5 * Math.PI, 0],
+//   disappear6: [0, 1.5 * Math.PI, 0],
+//   disappear7: [0, 0, Math.PI / 2],
+//   disappear8: [0, 0, Math.PI / 2],
+//   disappear9: [0, Math.PI, 0],
+//   disappear7: [0, 1.5 * Math.PI, 0],
+//   disappear8: [0, 1.5 * Math.PI, 0],
+//   disappear9: [0, 1.5 * Math.PI, 0],
+// };

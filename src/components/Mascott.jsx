@@ -13,16 +13,6 @@ import { useControls } from "leva";
 export default function Mascott(props) {
   const meGrp = useRef();
   const [currentRotation, setCurrentRotation] = useState(null);
-  // const { rotationMasc, positionMasc, scaleMasc } = useControls({
-  //   rotationMasc: {
-  //     value: { x: 0, y: 0, z: 0 },
-  //     step: 0.01,
-  //   },
-  //   positionMasc: {
-  //     value: { x: 0, y: 0, z: 0 },
-  //     step: 0.01,
-  //   },
-  // });
 
   const { nodes, materials } = useGLTF("models/me.glb");
 
@@ -38,27 +28,12 @@ export default function Mascott(props) {
   talking[0].name = "talking";
   idle[0].name = "idle";
 
-  const { actions } = useAnimations(
-    // [explaining[0], idle[0], talking[0], waving[0]],
-    explaining,
-    meGrp
-  );
+  const { actions } = useAnimations(explaining, meGrp);
   console.log(actions);
 
   useEffect(() => {
-    // if (actions[props.animation] && meGrp.current) {
-    //   actions[props.animation].reset().fadeIn(0.5).play();
-    // }
     actions["explaining"].play();
-
-    // return () => {
-    // if (actions[props.animation]) {
-    //   actions[props.animation].reset().fadeOut(0.5).stop();
-    // }
-
-    // };
   }, []);
-  //  [props.animation, actions, meGrp.current]
 
   //  ****************************
   return (

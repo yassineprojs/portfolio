@@ -11,7 +11,6 @@ import * as THREE from "three";
 import { Projects, currentProjectAtom, projects } from "./Projects.jsx";
 import { useEffect, useRef, useState } from "react";
 import { useAtom } from "jotai";
-import { useThree } from "@react-three/fiber";
 import { useLocation } from "../utils/LocationContext.jsx";
 
 const insideWorldTexture = new THREE.TextureLoader().load(
@@ -24,8 +23,6 @@ export default function InsideWorld({ world, onBackClick }) {
   const [projectTitle, setProjectTitle] = useState(null);
   const controlsRef = useRef();
 
-  // const scene = useThree((state) => state.scene);
-
   useEffect(() => {
     setCurrentLocation(world);
   }, [world]);
@@ -36,24 +33,6 @@ export default function InsideWorld({ world, onBackClick }) {
 
   const [textHovered, setTextHovered] = useState(false);
   useCursor(textHovered);
-
-  // useEffect(() => {
-  //   if (currentLocation === "room") {
-  //     const targetPosition = new THREE.Vector3();
-  //     scene.getObjectByName(projectTitle).getWorldPosition(targetPosition);
-  //     controlsRef.current.setLookAt(
-  //       -0.942,
-  //       0,
-  //       0.41,
-  //       targetPosition.x,
-  //       targetPosition.y,
-  //       targetPosition.z,
-  //       true
-  //     );
-  //   } else {
-  //     controlsRef.current.setLookAt(-0.942, 1, 0.41, 1, 0, 0, true);
-  //   }
-  // }, [currentLocation]);
 
   return (
     <>

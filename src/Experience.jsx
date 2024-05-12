@@ -10,10 +10,8 @@ export default function Experience({
 }) {
   // const { camera } = useThree();
   // const cameraPosition = camera.position;
-  // const cameraRotation = camera.rotation;
 
   // useFrame(() => {
-  //   console.log(cameraRotation);
   //   console.log(cameraPosition);
   // });
 

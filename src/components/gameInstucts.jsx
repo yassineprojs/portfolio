@@ -2,29 +2,30 @@ export default function Instructs({ nextClick, skipClick, nextText }) {
   const CubeScript = [
     {
       id: 1,
-      text: "i'm gonna try you out in a game",
+      text: "Alright, get your game face on! We're diving into the world of... *drumroll*... cubes! 🎲",
     },
     {
       id: 2,
-      text: "it's called ceaser ",
+      text: "Welcome to 'Caesar's Cube Conundrum'! It's like a brain salad with a side of Caesar cipher! 🥗💡",
     },
     {
       id: 3,
-      text: "it's as easy as rating a ceaser, and i love ceaser salads lol😂",
+      text: "Explore the depths of cube-rrific fun and unlock secrets hidden within! Need a hint? Check below! 😂",
     },
     {
       id: 4,
-      text: "you need to flip the cubes in order to find the true sentence",
+      text: "Your mission, should you choose to accept it: flip those cubes like a pro and uncover the hidden truth!",
     },
     {
       id: 5,
-      text: "if you get stuck, scan the hint below",
+      text: "Feeling lost? No worries! Check out the Caesar cipher page on your computer for more clues!",
     },
     {
-      id: 5,
-      text: "see you in the next corner !",
+      id: 6,
+      text: "Catch you in the flipside! Let's cube it up in the next round! 🎲✌️",
     },
   ];
+
   return (
     <div className="speachBox">
       <button className="skipBTn" onClick={skipClick}>

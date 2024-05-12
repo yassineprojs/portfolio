@@ -15,7 +15,7 @@ import {
 import gsap from "gsap";
 import { useLocation } from "./utils/LocationContext.jsx";
 
-// Create a Camera Context
+// Creating a Camera Context
 const CameraContext = createContext();
 
 // Custom Hook to manage camera animations
@@ -50,17 +50,9 @@ function CustomFirstPersonControls(props) {
     gl: { domElement },
   } = useThree();
 
-  // Provide the camera to the context
+  // Providing the camera to the context
   const setCamera = useContext(CameraContext);
   useEffect(() => setCamera(camera), [camera, setCamera]);
-
-  // const cameraRotations = [
-  //   { x: -0.494, y: -0.893, z: -0.397 },
-  //   { x: -2.44, y: -1.293, z: -2.465 },
-  //   { x: -3.06, y: -0.55, z: -3.099 },
-  //   { x: 0.29, y: -0.66, z: -0.183 },
-  //   { x: -1.39, y: -0.64, z: -1.28 },
-  // ];
 
   const moveState = useRef({ moving: false, lastMoveTime: 0 });
   const dampingFactor = 0.01;
@@ -68,7 +60,7 @@ function CustomFirstPersonControls(props) {
 
   useFrame(() => {
     if (controlsRef.current) {
-      // Enforce the verticalMax constraint
+      // Enforcing the verticalMax constraint
       controlsRef.current.lat = Math.max(
         -props.verticalMax,
         Math.min(props.verticalMax, controlsRef.current.lat)
@@ -114,19 +106,26 @@ function CustomFirstPersonControls(props) {
 export default function Main(props) {
   const { currentLocation } = useLocation();
   // for camera animations
-  // const cameraPositions = [
-  //   { x: -0.942, y: 0, z: 0.41 },
-  //   { x: -0.446, y: -0.342, z: 0.032 },
-  //   { x: 0.95, y: -0.5, z: 0.665 },
-  //   { x: 0.82, y: -0.37, z: 1.67 },
-  //   { x: 0.906, y: 0.00023, z: 0.237 },
-  //   { x: 0.851, y: -0.7, z: -0.03 },
-  // ];
-  // const [camera, setCamera] = useState();
-  // const { goToNextPosition, goToPreviousPosition } = useCameraAnimations(
-  //   camera,
-  //   cameraPositions
-  // );
+  const cameraPositions = [
+    { x: -0.942, y: 0, z: 0.41 },
+    { x: -0.446, y: -0.342, z: 0.032 },
+    { x: 0.95, y: -0.5, z: 0.665 },
+    { x: 0.82, y: -0.37, z: 1.67 },
+
+    { x: 0.906, y: 0.00023, z: 0.237 }, //tableau
+
+    { x: 1.471, y: -0.12, z: 1.05 },
+    { x: 1.478, y: -0.171, z: -0.278 },
+    { x: 1.455, y: 0.301, z: -0.586 },
+
+    { x: 0.851, y: -0.7, z: -0.03 },
+  ];
+
+  const [camera, setCamera] = useState();
+  const { goToNextPosition, goToPreviousPosition } = useCameraAnimations(
+    camera,
+    cameraPositions
+  );
 
   const script = [
     {
@@ -215,44 +214,44 @@ export default function Main(props) {
 
   return (
     <>
-      {/* <CameraContext.Provider value={setCamera}> */}
-      <Canvas
-        camera={{
-          fov: 60,
-          near: 0.1,
-          far: 200,
-          position: [-0.942, 0, 0.41],
-        }}
-      >
-        <OrbitControls />
+      <CameraContext.Provider value={setCamera}>
+        <Canvas
+          camera={{
+            fov: 60,
+            near: 0.1,
+            far: 200,
+            position: [-0.942, 0, 0.41],
+          }}
+        >
+          {/* <OrbitControls /> */}
 
-        {/* <CustomFirstPersonControls
-            lookSpeed={0.01}
+          <CustomFirstPersonControls
+            lookSpeed={0.015}
             movementSpeed={0}
             noFly={true}
             activeLook={true}
             autoForward={false}
             verticalMax={22}
-          /> */}
-
-        <Center>
-          <color attach="background" args={["#DFF5FF"]} />
-          <Experience
-            onMeshClick={() => setIsOverlayVisible(true)}
-            onHintClick={handleHintClick}
-            visible={isCubeVisible}
-            gameWon={isGameWon}
           />
 
-          {/* uncomment if you want the lagging of cubes appearing removed and see cubes.jsx also */}
-          {/* <Cube visible={isCubeVisible} onAllWordsCompleted={setIsGameWon} /> */}
-          <Cube
-            visible={isCubeVisible && !isGameWon}
-            onAllWordsCompleted={setIsGameWon}
-          />
-        </Center>
-      </Canvas>
-      {/* {currentLocation === "room" && (
+          <Center>
+            <color attach="background" args={["#DFF5FF"]} />
+            <Experience
+              onMeshClick={() => setIsOverlayVisible(true)}
+              onHintClick={handleHintClick}
+              visible={isCubeVisible}
+              gameWon={isGameWon}
+            />
+
+            {/* uncomment if you want the lagging of cubes appearing removed and see cubes.jsx also */}
+            {/* <Cube visible={isCubeVisible} onAllWordsCompleted={setIsGameWon} /> */}
+            <Cube
+              visible={isCubeVisible && !isGameWon}
+              onAllWordsCompleted={setIsGameWon}
+            />
+          </Center>
+        </Canvas>
+        {currentLocation === "room" && (
           <div
             style={{
               position: "absolute",
@@ -275,7 +274,7 @@ export default function Main(props) {
             </button>
           </div>
         )}
-      </CameraContext.Provider> */}
+      </CameraContext.Provider>
 
       {boxCubeVisible && (
         <div
