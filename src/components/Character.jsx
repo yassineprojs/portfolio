@@ -1,21 +1,10 @@
 import React, { useEffect, useRef } from "react";
 import { useGLTF, useAnimations } from "@react-three/drei";
-import { useControls } from "leva";
 
 export function Character(props) {
   const meGrp = useRef();
   const { nodes, materials, animations } = useGLTF("models/me6.glb");
   const { actions } = useAnimations(animations, meGrp);
-  const { rotationMasc, positionMasc, scaleMasc } = useControls({
-    rotationMasc: {
-      value: { x: 0, y: 0, z: 0 },
-      step: 0.01,
-    },
-    positionMasc: {
-      value: { x: 0, y: 0, z: 0 },
-      step: 0.01,
-    },
-  });
 
   useEffect(() => {
     if (actions[props.animation] && meGrp.current) {

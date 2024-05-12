@@ -8,7 +8,6 @@ import {
   useTexture,
 } from "@react-three/drei";
 import { Decal, Html } from "@react-three/drei";
-import { useControls } from "leva";
 import { DissolveMaterial } from "./components/DissolveMaterial.jsx";
 import InsideWorld from "./components/insideWorld.jsx";
 import { extend, useFrame, useLoader, useThree } from "@react-three/fiber";
@@ -38,17 +37,6 @@ export function Room({ onMeshClick, onHintClick, visibleCube, gameWon }) {
 
   const [phoneHovered, setPhoneHovered] = useState(false);
   useCursor(phoneHovered);
-
-  const { rotationIframe, positionIframe } = useControls({
-    positionIframe: {
-      value: { x: 0, y: 0, z: 0 },
-      step: 0.01,
-    },
-    rotationIframe: {
-      value: { x: 0, y: 0, z: 0 },
-      step: 0.001,
-    },
-  });
 
   const chairRef = useRef();
 
@@ -313,7 +301,7 @@ export function Room({ onMeshClick, onHintClick, visibleCube, gameWon }) {
             distanceFactor={0.155}
             // position={[positionIframe.x, 0.37, positionIframe.z]}
             position={[-0.2, 0.37, 0.02]}
-            rotation={[rotationIframe.x, -Math.PI / 2, rotationIframe.z]}
+            rotation={[0, -Math.PI / 2, 0]}
           >
             <iframe src="https://yassineprojs.github.io/innerWebsite/" />
           </Html>

@@ -56,7 +56,7 @@ function CustomFirstPersonControls(props) {
 
   const moveState = useRef({ moving: false, lastMoveTime: 0 });
   const dampingFactor = 0.01;
-  const timeout = 100; // Time in ms after which the rotation stops
+  const timeout = 80; // Time in ms after which the rotation stops
 
   useFrame(() => {
     if (controlsRef.current) {
@@ -226,7 +226,7 @@ export default function Main(props) {
           {/* <OrbitControls /> */}
 
           <CustomFirstPersonControls
-            lookSpeed={0.015}
+            lookSpeed={0.01}
             movementSpeed={0}
             noFly={true}
             activeLook={true}

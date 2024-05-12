@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useGLTF, useCursor } from "@react-three/drei";
 import { animated, useSpring } from "@react-spring/three";
-import { useControls } from "leva";
 import { DissolveMaterial } from "./DissolveMaterial";
 import * as THREE from "three";
 import { audios, playAudio } from "../utils/AudioManager";

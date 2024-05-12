@@ -1,6 +1,6 @@
 import { useFrame, useThree } from "@react-three/fiber";
-import { Room, Floor2 } from "./Room";
-import { Perf } from "r3f-perf";
+// import { Room, Floor2 } from "./Room";
+// import { Perf } from "r3f-perf";
 
 export default function Experience({
   onMeshClick,
@@ -17,7 +17,6 @@ export default function Experience({
 
   return (
     <>
-      <Perf position="top-left" />
       <color args={["#ececec"]} attach="background"></color>
 
       <ambientLight intensity={1} />

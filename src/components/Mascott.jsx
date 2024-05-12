@@ -8,7 +8,6 @@ import {
 } from "@react-three/drei";
 import { useFrame } from "@react-three/fiber";
 import * as THREE from "three";
-import { useControls } from "leva";
 
 export default function Mascott(props) {
   const meGrp = useRef();

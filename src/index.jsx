@@ -3,7 +3,6 @@ import "./styles.css";
 import ReactDOM from "react-dom/client";
 import Main from "./main.jsx";
 import { StrictMode } from "react";
-import { Leva } from "leva";
 import { LocationProvider } from "./utils/LocationContext.jsx";
 const root = ReactDOM.createRoot(document.querySelector("#root"));
 
@@ -12,6 +11,5 @@ root.render(
     <LocationProvider>
       <Main />
     </LocationProvider>
-    <Leva collapsed />
   </StrictMode>
 );
