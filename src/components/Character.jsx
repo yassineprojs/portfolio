@@ -10,7 +10,9 @@ export function Character(props) {
     if (actions[props.animation] && meGrp.current) {
       actions[props.animation].reset().fadeIn(0.5).play();
     }
-    return () => actions[props.animation].fadeOut(0.5);
+    return () => {
+      actions[props.animation].fadeOut(0.5);
+    };
   }, [props.animation]);
   return (
     <group ref={meGrp} {...props} dispose={null}>

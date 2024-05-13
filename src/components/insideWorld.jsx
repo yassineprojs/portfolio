@@ -18,7 +18,6 @@ const insideWorldTexture = new THREE.TextureLoader().load(
 );
 
 export default function InsideWorld({ world, onBackClick }) {
-  const map = useTexture("textures/insideWorld.png");
   const { currentLocation, setCurrentLocation } = useLocation();
   const [projectTitle, setProjectTitle] = useState(null);
   const controlsRef = useRef();

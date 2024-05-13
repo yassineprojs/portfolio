@@ -7,22 +7,21 @@ import {
   useAspect,
   useTexture,
 } from "@react-three/drei";
-import { useFrame, useThree } from "@react-three/fiber";
 import { motion } from "framer-motion-3d";
 import * as THREE from "three";
-import React, { Suspense, useEffect, useRef, useState } from "react";
+import React, { Suspense } from "react";
 import { atom, useAtom } from "jotai";
 
 export const projects = [
   {
     title: "Arabic Shop",
-    image: "images/shopImage.png",
+    // image: "images/shopImage.png",
     video: "videos/darNour.mp4",
     desciption: "creating a shopping website for arabic products",
   },
   {
     title: "Attack Surface",
-    image: "images/world.png",
+    // image: "images/world.png",
     video: "videos/earthattack.mp4",
     desciption:
       "showing attacks and their info in their location based on old data ",
