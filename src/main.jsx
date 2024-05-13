@@ -248,14 +248,14 @@ export default function Main(props) {
 
                 <Center>
                   <color attach="background" args={["#DFF5FF"]} />
-                  {start && (
-                    <Experience
-                      onMeshClick={() => setIsOverlayVisible(true)}
-                      onHintClick={handleHintClick}
-                      visible={isCubeVisible}
-                      gameWon={isGameWon}
-                    />
-                  )}
+
+                  <Experience
+                    onMeshClick={() => setIsOverlayVisible(true)}
+                    onHintClick={handleHintClick}
+                    visible={isCubeVisible}
+                    gameWon={isGameWon}
+                  />
+
                   {/* uncomment if you want the lagging of cubes appearing removed and see cubes.jsx also */}
                   {/* <Cube visible={isCubeVisible} onAllWordsCompleted={setIsGameWon} /> */}
                   <Cube
