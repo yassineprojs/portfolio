@@ -1,7 +1,6 @@
 import { Canvas, useFrame, extend, useThree } from "@react-three/fiber";
 import Experience from "./Experience.jsx";
 import { useEffect, createContext, useContext, useRef, useState } from "react";
-import Mascott from "./components/Mascott.jsx";
 import { Cube } from "./components/Cubes.jsx";
 import Instructs from "./components/gameInstucts.jsx";
 import { Character } from "./components/Character.jsx";
