@@ -1,6 +1,13 @@
 import { Canvas, useFrame, extend, useThree } from "@react-three/fiber";
 import Experience from "./Experience.jsx";
-import { useEffect, createContext, useContext, useRef, useState } from "react";
+import {
+  useEffect,
+  createContext,
+  useContext,
+  useRef,
+  useState,
+  Suspense,
+} from "react";
 import { Cube } from "./components/Cubes.jsx";
 import Instructs from "./components/gameInstucts.jsx";
 import { Character } from "./components/Character.jsx";
@@ -14,7 +21,7 @@ import {
 } from "@react-three/drei";
 import gsap from "gsap";
 import { useLocation } from "./utils/LocationContext.jsx";
-// import LoaderComponent from "./components/Loader.jsx";
+import { LoadingScreen } from "./components/Loader.jsx";
 
 // Creating a Camera Context
 const CameraContext = createContext();
@@ -106,6 +113,7 @@ function CustomFirstPersonControls(props) {
 
 export default function Main(props) {
   const { currentLocation } = useLocation();
+  const [start, setStart] = useState(false);
   // for camera animations
   const cameraPositions = [
     { x: -0.942, y: 0, z: 0.41 },
@@ -224,35 +232,42 @@ export default function Main(props) {
             position: [-0.942, 0, 0.41],
           }}
         >
-          {/* <OrbitControls /> */}
+          <Suspense fallback={null}>
+            {start && (
+              <>
+                {/* <OrbitControls /> */}
 
-          <CustomFirstPersonControls
-            lookSpeed={0.01}
-            movementSpeed={0}
-            noFly={true}
-            activeLook={true}
-            autoForward={false}
-            verticalMax={22}
-          />
+                <CustomFirstPersonControls
+                  lookSpeed={0.01}
+                  movementSpeed={0}
+                  noFly={true}
+                  activeLook={true}
+                  autoForward={false}
+                  verticalMax={22}
+                />
 
-          <Center>
-            <color attach="background" args={["#DFF5FF"]} />
-            <Experience
-              onMeshClick={() => setIsOverlayVisible(true)}
-              onHintClick={handleHintClick}
-              visible={isCubeVisible}
-              gameWon={isGameWon}
-            />
-
-            {/* uncomment if you want the lagging of cubes appearing removed and see cubes.jsx also */}
-            {/* <Cube visible={isCubeVisible} onAllWordsCompleted={setIsGameWon} /> */}
-            <Cube
-              visible={isCubeVisible && !isGameWon}
-              onAllWordsCompleted={setIsGameWon}
-            />
-          </Center>
+                <Center>
+                  <color attach="background" args={["#DFF5FF"]} />
+                  {start && (
+                    <Experience
+                      onMeshClick={() => setIsOverlayVisible(true)}
+                      onHintClick={handleHintClick}
+                      visible={isCubeVisible}
+                      gameWon={isGameWon}
+                    />
+                  )}
+                  {/* uncomment if you want the lagging of cubes appearing removed and see cubes.jsx also */}
+                  {/* <Cube visible={isCubeVisible} onAllWordsCompleted={setIsGameWon} /> */}
+                  <Cube
+                    visible={isCubeVisible && !isGameWon}
+                    onAllWordsCompleted={setIsGameWon}
+                  />
+                </Center>
+              </>
+            )}
+          </Suspense>
         </Canvas>
-        <Loader />
+        <LoadingScreen started={start} onStarted={() => setStart(true)} />
         {currentLocation === "room" && (
           <div
             style={{
