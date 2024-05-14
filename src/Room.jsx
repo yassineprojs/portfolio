@@ -329,10 +329,10 @@ export function Room({ onMeshClick, onHintClick, visibleCube, gameWon }) {
             distanceFactor={1.5}
             center
             wrapperClass="recorder"
-            position={[-0.1, 0.2, 0]}
+            position={[-0.1, 0.3, 0]}
             style={{ color: "#fff" }}
           >
-            Click Me
+            Click Me First
           </Html>
         )}
       </group>

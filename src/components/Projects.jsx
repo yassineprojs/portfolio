@@ -15,21 +15,21 @@ import { atom, useAtom } from "jotai";
 export const projects = [
   {
     title: "Arabic Shop",
-    // image: "images/shopImage.png",
-    video: "videos/darNour.mp4",
+    image: "images/shopImage.png",
+    // video: "videos/dardNour.mp4",
     desciption: "creating a shopping website for arabic products",
   },
   {
     title: "Attack Surface",
-    // image: "images/world.png",
-    video: "videos/earthattack.mp4",
+    image: "images/world.png",
+    // video: "videos/earthattack.mp4",
     desciption:
       "showing attacks and their info in their location based on old data ",
   },
   {
     title: "QuickTUn",
-    // image: "images/world.png",
-    video: "videos/quickTun.mp4",
+    image: "images/quickTun.png",
+    // video: "videos/quickTun.mp4",
     desciption: "website for helping student's college life easier ",
   },
 ];
@@ -47,13 +47,13 @@ const Project = (props) => {
           side={THREE.DoubleSide}
         />
       </RoundedBox>
-      <mesh position-y={0.5}>
+      {/* <mesh position-y={0.5}>
         <planeGeometry args={[3, 1.5]} />
         <Suspense fallback={<meshStandardMaterial side={THREE.DoubleSide} />}>
           <VideoMaterial src={project.video} />
         </Suspense>
-      </mesh>
-      {/* <Image
+      </mesh> */}
+      <Image
         transparent
         opacity={1}
         side={THREE.DoubleSide}
@@ -62,7 +62,7 @@ const Project = (props) => {
         toneMapped={false}
         url={project.image}
         position-y={0.55}
-      /> */}
+      />
       <Text
         font="./fonts/orbiton.ttf"
         maxWidth={3}
@@ -111,7 +111,7 @@ export const Projects = React.memo(() => {
   );
 });
 
-function VideoMaterial({ src }) {
-  const texture = useVideoTexture(src);
-  return <meshStandardMaterial map={texture} toneMapped={false} />;
-}
+// function VideoMaterial({ src }) {
+//   const texture = useVideoTexture(src);
+//   return <meshStandardMaterial map={texture} toneMapped={false} />;
+// }
