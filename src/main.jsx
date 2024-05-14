@@ -73,6 +73,11 @@ function CustomFirstPersonControls(props) {
         -props.verticalMax,
         Math.min(props.verticalMax, controlsRef.current.lat)
       );
+      // Enforcing the horizontalMax constraint
+      // controlsRef.current.lon = Math.max(
+      //   -props.horizontalMax,
+      //   Math.min(props.horizontalMax, controlsRef.current.lon)
+      // );
       const timeSinceLastMove = Date.now() - moveState.current.lastMoveTime;
       if (moveState.current.moving && timeSinceLastMove > timeout) {
         controlsRef.current.lookSpeed *= 1 - dampingFactor;
@@ -230,44 +235,46 @@ export default function Main(props) {
             near: 0.1,
             far: 200,
             position: [-1.5, -0.3, 0.7],
+            // rotation: [0, Math.PI * 2, 0],
           }}
         >
-          {/* <Suspense fallback={null}> */}
-          {/* {start && ( */}
-          <>
-            {/* <OrbitControls /> */}
+          <Suspense fallback={null}>
+            {start && (
+              <>
+                {/* <OrbitControls /> */}
 
-            <CustomFirstPersonControls
-              lookSpeed={0.015}
-              movementSpeed={0}
-              noFly={true}
-              activeLook={true}
-              autoForward={false}
-              verticalMax={10}
-            />
+                <CustomFirstPersonControls
+                  lookSpeed={0.015}
+                  movementSpeed={0}
+                  noFly={true}
+                  activeLook={true}
+                  autoForward={false}
+                  verticalMax={10}
+                  // horizontalMax={90}
+                />
 
-            <Center>
-              <color attach="background" args={["#DFF5FF"]} />
+                <Center>
+                  <color attach="background" args={["#DFF5FF"]} />
 
-              <Experience
-                onMeshClick={() => setIsOverlayVisible(true)}
-                onHintClick={handleHintClick}
-                visible={isCubeVisible}
-                gameWon={isGameWon}
-              />
+                  <Experience
+                    onMeshClick={() => setIsOverlayVisible(true)}
+                    onHintClick={handleHintClick}
+                    visible={isCubeVisible}
+                    gameWon={isGameWon}
+                  />
 
-              {/* uncomment if you want the lagging of cubes appearing removed and see cubes.jsx also */}
-              {/* <Cube visible={isCubeVisible} onAllWordsCompleted={setIsGameWon} /> */}
-              <Cube
-                visible={isCubeVisible && !isGameWon}
-                onAllWordsCompleted={setIsGameWon}
-              />
-            </Center>
-          </>
-          {/* )} */}
-          {/* </Suspense> */}
+                  {/* uncomment if you want the lagging of cubes appearing removed and see cubes.jsx also */}
+                  {/* <Cube visible={isCubeVisible} onAllWordsCompleted={setIsGameWon} /> */}
+                  <Cube
+                    visible={isCubeVisible && !isGameWon}
+                    onAllWordsCompleted={setIsGameWon}
+                  />
+                </Center>
+              </>
+            )}
+          </Suspense>
         </Canvas>
-        {/* <LoadingScreen started={start} onStarted={() => setStart(true)} /> */}
+        <LoadingScreen started={start} onStarted={() => setStart(true)} />
         {currentLocation === "room" && (
           <div
             style={{
