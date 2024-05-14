@@ -16,7 +16,7 @@ export const projects = [
   {
     title: "Arabic Shop",
     // image: "images/shopImage.png",
-    video: "videos/dardNour.mp4",
+    video: "videos/darNour.mp4",
     desciption: "creating a shopping website for arabic products",
   },
   {
